@@ -38,7 +38,6 @@
             100% { transform: scale(1); }
         }
 
-        /* Menu */
         .menu {
             display: flex;
             flex-wrap: wrap;
@@ -63,7 +62,6 @@
             transform: translateY(-10px) scale(1.05);
         }
 
-        /* Game area */
         .game-area {
             display: none;
             margin: 40px auto;
@@ -150,7 +148,6 @@
             margin: 20px 0;
         }
 
-        /* Modal thắng/thua */
         .modal {
             display: none;
             position: fixed;
@@ -187,7 +184,6 @@
             margin: 20px 0;
         }
 
-        /* Footer */
         #footer {
             margin-top: 60px;
             padding: 25px;
@@ -253,7 +249,6 @@
         <button class="game-btn" onclick="showGame('snake')">🐍 Rắn Săn Mồi</button>
     </div>
 
-    <!-- Các game area (giữ nguyên) -->
     <div id="rps" class="game-area">
         <h3>🪨✋✌️ Oẳn Tù Tì</h3>
         <p>Chọn đi nào!</p>
@@ -293,8 +288,8 @@
 
     <div id="hangman" class="game-area">
         <h3>🔤 Đuổi Hình Bắt Chữ</h3>
-        <p id="hangman-word"></p>
-        <p>Sai: <span id="wrong-letters"></span></p>
+        <p id="hangman-word" style="font-size: 2.5em; letter-spacing: 15px; margin: 30px;"></p>
+        <p>Sai: <span id="wrong-letters" style="color: red; font-size: 1.5em;"></span></p>
         <div id="hangman-letters" class="choice-btns"></div>
         <p class="result" id="hangman-result"></p>
         <button onclick="restartHangman()">🔄 Chơi lại</button>
@@ -310,7 +305,6 @@
         <p><small>Dùng phím mũi tên để di chuyển 🐍</small></p>
     </div>
 
-    <!-- Modal thắng/thua -->
     <div id="result-modal" class="modal">
         <div class="modal-content">
             <div class="modal-emoji" id="modal-emoji"></div>
@@ -321,7 +315,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div id="footer">
         <p><strong>MADE BY: NGUYỄN CHÍ DỰ</strong> ♥️</p>
         <button onclick="showForm('report')">🐞 REPORT BUGS</button>
@@ -330,14 +323,14 @@
         <div id="report" class="form-section">
             <p>Điền thông tin báo lỗi nhé:</p>
             <input type="email" id="report-email" placeholder="Gmail của bạn">
-            <textarea id="report-msg" placeholder="Mô tả lỗi chi tiết (game nào, lỗi gì, thiết bị...)"></textarea>
+            <textarea id="report-msg" placeholder="Mô tả lỗi chi tiết..."></textarea>
             <button onclick="sendReport()">📤 Gửi báo lỗi</button>
         </div>
 
         <div id="suggest" class="form-section">
             <p>Gợi ý trò chơi mới cho mình nhé!</p>
             <input type="email" id="suggest-email" placeholder="Gmail của bạn">
-            <textarea id="suggest-msg" placeholder="Bạn muốn thêm trò chơi gì? Mô tả ý tưởng càng chi tiết càng tốt nha ♥️"></textarea>
+            <textarea id="suggest-msg" placeholder="Bạn muốn thêm trò chơi gì? ♥️"></textarea>
             <button onclick="sendSuggest()">📤 Gửi gợi ý</button>
         </div>
 
@@ -350,56 +343,7 @@
     </div>
 
     <script>
-        // FIX CHÍNH XÁC LỖI HIỂN THỊ FORM
-        function showForm(type) {
-            // Ẩn tất cả trước
-            document.getElementById('report').style.display = 'none';
-            document.getElementById('suggest').style.display = 'none';
-            document.getElementById('success-msg').style.display = 'none';
-
-            // Hiện form tương ứng
-            if (type === 'report') {
-                document.getElementById('report').style.display = 'block';
-            } else if (type === 'suggest') {
-                document.getElementById('suggest').style.display = 'block';
-            }
-        }
-
-        function sendReport() {
-            const email = document.getElementById('report-email').value.trim();
-            const msg = document.getElementById('report-msg').value.trim();
-            if (!email || !msg) {
-                alert('Nhớ điền đầy đủ Gmail và mô tả lỗi nhé! 😊');
-                return;
-            }
-            const subject = encodeURIComponent('[BÁO LỖI MINI GAME] Từ: ' + email);
-            const body = encodeURIComponent(`Gmail: \( {email}\n\nMô tả lỗi:\n \){msg}\n\n(Cảm ơn bạn đã báo lỗi ♥️)`);
-            window.location.href = `mailto:Herogoodboymc2024@gmail.com?subject=\( {subject}&body= \){body}`;
-            showSuccess();
-        }
-
-        function sendSuggest() {
-            const email = document.getElementById('suggest-email').value.trim();
-            const msg = document.getElementById('suggest-msg').value.trim();
-            if (!email || !msg) {
-                alert('Nhớ điền đầy đủ Gmail và ý tưởng nhé! 😊');
-                return;
-            }
-            const subject = encodeURIComponent('[GỢI Ý TRÒ CHƠI MỚI] Từ: ' + email);
-            const body = encodeURIComponent(`Gmail: \( {email}\n\nÝ tưởng trò chơi:\n \){msg}\n\n(Cảm ơn bạn đã gợi ý ♥️)`);
-            window.location.href = `mailto:Herogoodboymc2024@gmail.com?subject=\( {subject}&body= \){body}`;
-            showSuccess();
-        }
-
-        function showSuccess() {
-            document.getElementById('report').style.display = 'none';
-            document.getElementById('suggest').style.display = 'none';
-            document.getElementById('success-msg').style.display = 'block';
-        }
-
-        // Các hàm game khác (modal, oẳn tù tì, cờ caro, bầu cua, đuổi hình, rắn săn mồi...) giữ nguyên như phiên bản trước
-        // (Để tránh code quá dài, mình giữ nguyên logic đã hoạt động tốt)
-
+        // Modal
         function showResultModal(type, title, message, emoji) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-message').innerText = message;
@@ -413,17 +357,15 @@
                 document.getElementById('modal-title').classList.remove('win');
             }
         }
-
         function closeModal() {
             document.getElementById('result-modal').style.display = 'none';
-            const activeGame = document.querySelector('.game-area.active')?.id;
-            if (activeGame === 'rps') restartRPS();
-            if (activeGame === 'tic') restartTic();
-            if (activeGame === 'baucua') restartBauCua();
-            if (activeGame === 'hangman') restartHangman();
-            if (activeGame === 'snake') restartSnake();
+            const active = document.querySelector('.game-area.active').id;
+            if (active === 'rps') restartRPS();
+            if (active === 'tic') restartTic();
+            if (active === 'baucua') restartBauCua();
+            if (active === 'hangman') restartHangman();
+            if (active === 'snake') restartSnake();
         }
-
         function backToMenuAndClose() {
             closeModal();
             backToMenu();
@@ -432,6 +374,8 @@
         function showGame(id) {
             document.querySelectorAll('.game-area').forEach(area => area.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+
+            // Khởi tạo lại game khi mở
             if (id === 'tic') initTicBoard();
             if (id === 'hangman') initHangman();
             if (id === 'snake') initSnake();
@@ -441,7 +385,239 @@
             document.querySelectorAll('.game-area').forEach(area => area.classList.remove('active'));
         }
 
-        // ... (các hàm game khác như playRPS, initTicBoard, playBauCua, initHangman, initSnake... giữ nguyên)
+        // Oẳn tù tì
+        const rpsChoices = ['✊', '✋', '✌️'];
+        const rpsNames = { '✊': 'Búa', '✋': 'Bao', '✌️': 'Kéo' };
+        function playRPS(choice) {
+            const comp = rpsChoices[Math.floor(Math.random() * 3)];
+            let result = '';
+            if (choice === comp) {
+                result = 'Hòa nhau! 🤝';
+            } else if (
+                (choice === '✊' && comp === '✌️') ||
+                (choice === '✋' && comp === '✊') ||
+                (choice === '✌️' && comp === '✋')
+            ) {
+                result = 'Bạn thắng!!! 🎉';
+                showResultModal('win', 'CHÚC MỪNG THẮNG!!!', 'Giỏi quá đi ♥️', '🏆✨🎊');
+                return;
+            } else {
+                result = 'Máy thắng 😭';
+                showResultModal('lose', 'Thua rồi huhu', 'Cố lên lần sau nha 💪', '😢💔');
+                return;
+            }
+            document.getElementById('rps-result').innerHTML = `<strong>Bạn:</strong> \( {choice} ( \){rpsNames[choice]})<br><strong>Máy:</strong> \( {comp} ( \){rpsNames[comp]})<br><br>${result}`;
+        }
+        function restartRPS() {
+            document.getElementById('rps-result').innerHTML = '';
+        }
+
+        // Cờ Caro - SỬA LỖI KHÔNG HIỆN BÀN CỜ
+        let ticBoard = Array(9).fill(null);
+        let currentPlayer = 'X';
+        function initTicBoard() {
+            const board = document.getElementById('board');
+            board.innerHTML = ''; // Xóa cũ
+            ticBoard = Array(9).fill(null);
+            currentPlayer = 'X';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.onclick = () => makeMove(i);
+                board.appendChild(cell);
+            }
+            document.getElementById('tic-result').innerText = 'Lượt đi: X';
+        }
+        function makeMove(i) {
+            if (ticBoard[i] || checkWinner(ticBoard)) return;
+            ticBoard[i] = currentPlayer;
+            document.querySelectorAll('#board .cell')[i].innerText = currentPlayer;
+            if (checkWinner(ticBoard)) {
+                showResultModal('win', 'CHÚC MỪNG!!!', `${currentPlayer} thắng rồi! 🎉`, '🏆✨');
+            } else if (ticBoard.every(c => c)) {
+                showResultModal('lose', 'HÒA NHAU!', 'Vui là chính mà 😄', '🤝');
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                document.getElementById('tic-result').innerText = 'Lượt đi: ' + currentPlayer;
+            }
+        }
+        function checkWinner(board) {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(w => board[w[0]] && board[w[0]] === board[w[1]] && board[w[1]] === board[w[2]]);
+        }
+        function restartTic() {
+            initTicBoard();
+        }
+
+        // Bầu Cua
+        const bcChoices = ['🦌','🍉','🐔','🦀','🦐','🐟'];
+        const bcNames = {'🦌':'Nai','🍉':'Bầu','🐔':'Gà','🦀':'Cua','🦐':'Tôm','🐟':'Cá'};
+        function playBauCua(choice) {
+            const d1 = bcChoices[Math.floor(Math.random()*6)];
+            const d2 = bcChoices[Math.floor(Math.random()*6)];
+            const d3 = bcChoices[Math.floor(Math.random()*6)];
+            const count = [d1,d2,d3].filter(x => x === choice).length;
+            document.getElementById('bau-cua-result').innerHTML = 
+                `<strong>Bạn chọn:</strong> \( {choice} ( \){bcNames[choice]})<br>
+                 <strong>Lắc ra:</strong> ${d1} ${d2} ${d3}<br><br>`;
+            if (count > 0) {
+                showResultModal('win', 'THẮNG RỒI!!! 🎉', `Trúng ${count} con! May mắn quá ♥️`, '💰✨');
+            } else {
+                showResultModal('lose', 'Thua rồi...', 'Lần sau trúng lớn nha 💪', '😭🎲');
+            }
+        }
+        function restartBauCua() {
+            document.getElementById('bau-cua-result').innerHTML = '';
+        }
+
+        // Đuổi Hình Bắt Chữ - SỬA LỖI CHỈ HIỆN SAI
+        const words = ["VIETNAM", "BANBE", "YEUTHUONG", "HANHPHUC", "CHILL", "GAME", "VUIVE", "MINIGAME"];
+        let currentWord = '';
+        let displayedWord = [];
+        let wrongLetters = [];
+        let gameOver = false;
+
+        function initHangman() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            displayedWord = Array(currentWord.length).fill('_');
+            wrongLetters = [];
+            gameOver = false;
+
+            document.getElementById('hangman-word').innerText = displayedWord.join(' ');
+            document.getElementById('wrong-letters').innerText = '';
+            document.getElementById('hangman-result').innerText = '';
+
+            const lettersDiv = document.getElementById('hangman-letters');
+            lettersDiv.innerHTML = '';
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                const btn = document.createElement('button');
+                btn.innerText = letter;
+                btn.onclick = () => guessLetter(letter, btn);
+                lettersDiv.appendChild(btn);
+            }
+        }
+
+        function guessLetter(letter, btn) {
+            if (gameOver || btn.disabled) return;
+            btn.disabled = true;
+
+            if (currentWord.includes(letter)) {
+                for (let i = 0; i < currentWord.length; i++) {
+                    if (currentWord[i] === letter) {
+                        displayedWord[i] = letter;
+                    }
+                }
+                document.getElementById('hangman-word').innerText = displayedWord.join(' ');
+                if (!displayedWord.includes('_')) {
+                    gameOver = true;
+                    showResultModal('win', 'CHÚC MỪNG!!!', 'Đoán đúng rồi! Giỏi quá ♥️', '🏆✨');
+                }
+            } else {
+                wrongLetters.push(letter);
+                document.getElementById('wrong-letters').innerText = wrongLetters.join(' ');
+                if (wrongLetters.length >= 6) {
+                    gameOver = true;
+                    showResultModal('lose', 'Thua rồi huhu', `Từ là: ${currentWord}`, '😭');
+                }
+            }
+        }
+
+        function restartHangman() {
+            initHangman();
+        }
+
+        // Rắn Săn Mồi
+        let snake, food, dx, dy, score, canvas, ctx, intervalId;
+        function initSnake() {
+            canvas = document.getElementById('snake-canvas');
+            ctx = canvas.getContext('2d');
+            snake = [{x: 200, y: 200}];
+            spawnFood();
+            dx = 0; dy = 0;
+            score = 0;
+            document.getElementById('snake-score').innerText = score;
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(gameLoop, 120);
+            document.onkeydown = changeDirection;
+        }
+        function spawnFood() {
+            food = {
+                x: Math.floor(Math.random() * 20) * 20,
+                y: Math.floor(Math.random() * 20) * 20
+            };
+        }
+        function gameLoop() {
+            if (dx === 0 && dy === 0) return;
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            if (head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400 || snake.some(s => s.x === head.x && s.y === head.y)) {
+                clearInterval(intervalId);
+                showResultModal('lose', 'GAME OVER!', `Điểm: ${score}`, '💔🐍');
+                return;
+            }
+            snake.unshift(head);
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                document.getElementById('snake-score').innerText = score;
+                spawnFood();
+            } else {
+                snake.pop();
+            }
+            draw();
+        }
+        function draw() {
+            ctx.clearRect(0, 0, 400, 400);
+            ctx.fillStyle = '#ff6b81';
+            snake.forEach(seg => ctx.fillRect(seg.x, seg.y, 20, 20));
+            ctx.fillStyle = '#2ed573';
+            ctx.fillRect(food.x, food.y, 20, 20);
+        }
+        function changeDirection(e) {
+            const LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
+            if ([LEFT, UP, RIGHT, DOWN].includes(e.keyCode)) e.preventDefault();
+            if (e.keyCode === LEFT && dx !== 20) { dx = -20; dy = 0; }
+            if (e.keyCode === UP && dy !== 20) { dx = 0; dy = -20; }
+            if (e.keyCode === RIGHT && dx !== -20) { dx = 20; dy = 0; }
+            if (e.keyCode === DOWN && dy !== -20) { dx = 0; dy = 20; }
+        }
+        function restartSnake() {
+            clearInterval(intervalId);
+            initSnake();
+        }
+
+        // Report & Suggest
+        function showForm(type) {
+            document.getElementById('report').style.display = 'none';
+            document.getElementById('suggest').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'none';
+            document.getElementById(type).style.display = 'block';
+        }
+
+        function sendReport() {
+            const email = document.getElementById('report-email').value.trim();
+            const msg = document.getElementById('report-msg').value.trim();
+            if (!email || !msg) { alert('Điền đầy đủ nhé!'); return; }
+            const subject = encodeURIComponent('[BÁO LỖI] Từ: ' + email);
+            const body = encodeURIComponent(`Gmail: ${email}\n\nLỗi: ${msg}`);
+            window.location.href = `mailto:Herogoodboymc2024@gmail.com?subject=\( {subject}&body= \){body}`;
+            showSuccess();
+        }
+
+        function sendSuggest() {
+            const email = document.getElementById('suggest-email').value.trim();
+            const msg = document.getElementById('suggest-msg').value.trim();
+            if (!email || !msg) { alert('Điền đầy đủ nhé!'); return; }
+            const subject = encodeURIComponent('[GỢI Ý GAME] Từ: ' + email);
+            const body = encodeURIComponent(`Gmail: ${email}\n\nGợi ý: ${msg}`);
+            window.location.href = `mailto:Herogoodboymc2024@gmail.com?subject=\( {subject}&body= \){body}`;
+            showSuccess();
+        }
+
+        function showSuccess() {
+            document.getElementById('report').style.display = 'none';
+            document.getElementById('suggest').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        }
     </script>
 </body>
 </html>
