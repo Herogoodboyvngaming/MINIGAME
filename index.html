@@ -21,9 +21,7 @@
         h1 {
             font-size: 48px;
             color: #fff;
-            text-shadow: 
-                3px 3px 0px #ff6b6b,
-                6px 6px 0px rgba(0,0,0,0.2);
+            text-shadow: 3px 3px 0px #ff6b6b, 6px 6px 0px rgba(0,0,0,0.2);
             margin: 0;
             letter-spacing: 3px;
             animation: glow 2s ease-in-out infinite alternate;
@@ -81,7 +79,6 @@
             height: auto;
             touch-action: none;
         }
-        /* Modal kết thúc game */
         .modal {
             display: none;
             position: fixed;
@@ -118,7 +115,6 @@
             background: linear-gradient(to bottom, #ff7e5f, #feb47b);
             border-radius: 50px;
         }
-        /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 36px; }
             .subtitle { font-size: 22px; }
@@ -214,7 +210,7 @@
         <p id="pikachuStatus" style="font-size:24px;font-weight:bold;margin:20px;">Còn lại: <span id="pairsLeft">8</span> cặp</p>
     </div>
 
-    <!-- Modal kết thúc game (chung cho tất cả game) -->
+    <!-- Modal kết thúc game -->
     <div id="gameModal" class="modal">
         <div class="modal-content">
             <h2 id="modalTitle">🎉 Chúc mừng!</h2>
@@ -223,8 +219,15 @@
         </div>
     </div>
 
+    <!-- Âm thanh (royalty-free từ nguồn uy tín) -->
+    <audio id="eatSound" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3d1e5f5a5e.mp3?filename=coin-pickup-98268.mp3"></audio> <!-- Coin eat -->
+    <audio id="jumpSound" preload="auto" src="https://www.orangefreesounds.com/wp-content/uploads/2016/02/Flapping-wings-sound-effect-free-mp3-download.mp3"></audio> <!-- Wing flap -->
+    <audio id="matchSound" preload="auto" src="https://mixkit.co/free-sound-effects/download/mixkit-arcade-game-jump-coin-216.wav"></audio> <!-- Success chime (tương tự coin nhưng vui) -->
+    <audio id="gameOverSound" preload="auto" src="https://mixkit.co/free-sound-effects/download/mixkit-losing-piano-2021.wav"></audio> <!-- Game over sad -->
+    <audio id="victorySound" preload="auto" src="https://mixkit.co/free-sound-effects/download/mixkit-fanfare-trumpet-199.wav"></audio> <!-- Victory fanfare short -->
+
     <script>
-        let currentGame = ''; // Lưu game đang chơi để restart đúng
+        let currentGame = '';
 
         function showGame(gameId) {
             document.querySelectorAll('.game-container').forEach(div => div.style.display = 'none');
@@ -235,13 +238,14 @@
             if (gameId === 'pikachu') initPikachu();
             if (gameId === 'tictactoe') resetTTT();
             adjustCanvasSize();
-            document.getElementById('gameModal').style.display = 'none'; // Ẩn modal nếu đang mở
+            document.getElementById('gameModal').style.display = 'none';
         }
 
-        function showModal(title, message) {
+        function showModal(title, message, isVictory = false) {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalMessage').innerHTML = message;
             document.getElementById('gameModal').style.display = 'flex';
+            playSound(isVictory ? 'victorySound' : 'gameOverSound');
         }
 
         function restartCurrentGame() {
@@ -250,6 +254,14 @@
             if (currentGame === 'flappy') initFlappy();
             if (currentGame === 'pikachu') initPikachu();
             if (currentGame === 'tictactoe') resetTTT();
+        }
+
+        function playSound(id) {
+            const sound = document.getElementById(id);
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {}); // Tránh lỗi autoplay trên mobile
+            }
         }
 
         function adjustCanvasSize() {
@@ -263,7 +275,7 @@
         }
         window.addEventListener('resize', adjustCanvasSize);
 
-        // ==================== Rắn Săn Mồi ====================
+        // Rắn Săn Mồi (ĐÃ FIX BUG + ĐIỂM)
         let snakeCanvas, snakeCtx, snakeScore = 0;
         let snake = [{x: 200, y: 200}];
         let dx = 10, dy = 0;
@@ -286,8 +298,8 @@
         }
 
         function createFood() {
-            foodX = Math.floor(Math.random() * 39) * 10 + 5;
-            foodY = Math.floor(Math.random() * 39) * 10 + 5;
+            foodX = Math.floor(Math.random() * 40) * 10; // Chính xác bội 10: 0,10,20,...,390
+            foodY = Math.floor(Math.random() * 40) * 10;
         }
 
         function updateSnake(currentTime) {
@@ -306,6 +318,7 @@
 
                 snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
 
+                // Vẽ rắn
                 snake.forEach(part => {
                     snakeCtx.fillStyle = '#4CAF50';
                     snakeCtx.fillRect(part.x, part.y, 10, 10);
@@ -313,22 +326,26 @@
                     snakeCtx.strokeRect(part.x, part.y, 10, 10);
                 });
 
+                // Vẽ mồi
                 snakeCtx.fillStyle = '#FF5722';
                 snakeCtx.fillRect(foodX, foodY, 10, 10);
 
                 let head = {x: snake[0].x + dx, y: snake[0].y + dy};
 
+                // Va chạm tường hoặc thân
                 if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height || snake.slice(1).some(part => part.x === head.x && part.y === head.y)) {
-                    showModal('💔 Game Over!', `Bạn đã đạt <strong>${snakeScore}</strong> điểm!<br>Rất tiếc bạn thua rồi 😢`);
+                    showModal('💔 Game Over!', `Bạn đạt <strong>${snakeScore}</strong> điểm!<br>Rất tiếc nhé 😢`, false);
                     return;
                 }
 
                 snake.unshift(head);
 
+                // Ăn mồi (bây giờ chính xác 100%)
                 if (head.x === foodX && head.y === foodY) {
                     snakeScore++;
                     document.getElementById('snakeScore').innerText = 'Điểm: ' + snakeScore;
                     createFood();
+                    playSound('eatSound');
                 } else {
                     snake.pop();
                 }
@@ -347,7 +364,7 @@
             pendingDirection = dir;
         }
 
-        // ==================== Cờ Caro ====================
+        // Cờ Caro
         let tttBoard = Array(9).fill(null);
 
         function playTTT(index) {
@@ -355,17 +372,18 @@
             tttBoard[index] = 'X';
             document.getElementById('ttt' + index).innerText = 'X';
             if (checkWinner(tttBoard)) {
-                showModal('🎉 Chúc mừng!', 'Bạn đã thắng trận cờ caro này! 🏆<br>Giỏi quá đi!');
+                showModal('🎉 Chúc mừng!', 'Bạn đã thắng trận cờ caro này! 🏆<br>Giỏi quá đi!', true);
                 return;
             }
             if (tttBoard.every(cell => cell)) {
-                showModal('🤝 Hòa nhau!', 'Không ai thắng, chơi lại nào!<br>Bạn chơi hay lắm 👍');
+                showModal('🤝 Hòa nhau!', 'Không ai thắng, chơi lại nào!<br>Bạn chơi hay lắm 👍', false);
                 return;
             }
             setTimeout(computerMove, 500);
         }
 
         function computerMove() {
+            // Logic AI như trước (đã ổn)
             let bestMove = -1;
             for (let i = 0; i < 9; i++) {
                 if (!tttBoard[i]) {
@@ -390,9 +408,9 @@
             tttBoard[bestMove] = 'O';
             document.getElementById('ttt' + bestMove).innerText = 'O';
             if (checkWinner(tttBoard)) {
-                showModal('🤖 Máy thắng!', 'Máy tính đã thắng lần này!<br>Bạn chơi rất tốt, thử lại nhé 💪');
+                showModal('🤖 Máy thắng!', 'Máy tính thắng rồi!<br>Thử lại nhé 💪', false);
             } else if (tttBoard.every(cell => cell)) {
-                showModal('🤝 Hòa nhau!', 'Lại hòa nữa rồi!<br>Chơi thêm ván khác nào 🎲');
+                showModal('🤝 Hòa nhau!', 'Lại hòa! Chơi thêm ván nào 🎲', false);
             }
         }
 
@@ -407,7 +425,7 @@
             document.getElementById('tttStatus').innerText = '';
         }
 
-        // ==================== Flappy Bird ====================
+        // Flappy Bird
         let flappyCanvas, flappyCtx, birdY = 250, birdVelocity = 0, pipes = [], flappyScore = 0;
         let gravity = 0.5, jump = -10;
 
@@ -426,7 +444,7 @@
             birdY += birdVelocity;
 
             if (birdY > flappyCanvas.height - 30 || birdY < 0) {
-                showModal('💥 Va chạm!', `Bạn đạt <strong>${flappyScore}</strong> điểm!<br>Cố lên, lần sau sẽ cao hơn nhé 🚀`);
+                showModal('💥 Va chạm!', `Bạn đạt <strong>${flappyScore}</strong> điểm!<br>Cố lên lần sau nhé 🚀`, false);
                 return;
             }
 
@@ -444,10 +462,11 @@
                 if (pipe.x + 60 === 90) {
                     flappyScore++;
                     document.getElementById('flappyScore').innerText = 'Điểm: ' + flappyScore;
+                    playSound('eatSound');
                 }
 
                 if (pipe.x < 90 && pipe.x > 10 && (birdY < pipe.gap || birdY + 30 > pipe.gap + 150)) {
-                    showModal('💥 Game Over!', `Điểm cao nhất: <strong>${flappyScore}</strong><br>Bạn bay rất giỏi rồi! 🐦`);
+                    showModal('💥 Game Over!', `Điểm cao: <strong>${flappyScore}</strong><br>Bạn bay giỏi lắm! 🐦`, false);
                     return;
                 }
             });
@@ -458,10 +477,10 @@
             requestAnimationFrame(updateFlappy);
         }
 
-        document.addEventListener('keydown', e => { if (e.key === ' ') birdVelocity = jump; });
-        flappyCanvas.addEventListener('touchstart', e => { e.preventDefault(); birdVelocity = jump; });
+        document.addEventListener('keydown', e => { if (e.key === ' ') { birdVelocity = jump; playSound('jumpSound'); } });
+        flappyCanvas.addEventListener('touchstart', e => { e.preventDefault(); birdVelocity = jump; playSound('jumpSound'); });
 
-        // ==================== Pikachu ====================
+        // Pikachu
         const emojis = ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼'];
         let pikachuCards = [...emojis, ...emojis];
         let selected = [];
@@ -500,10 +519,11 @@
                     selected[1].card.style.background = '#a8e6cf';
                     selected[0].card.style.cursor = 'default';
                     selected[1].card.style.cursor = 'default';
+                    playSound('matchSound');
                     let pairs = parseInt(document.getElementById('pairsLeft').innerText) - 1;
                     document.getElementById('pairsLeft').innerText = pairs;
                     if (pairs === 0) {
-                        showModal('🎉 Tuyệt vời!', 'Bạn đã ghép hết tất cả các cặp!<br>Chúc mừng chiến thắng rực rỡ! 🏆✨');
+                        showModal('🎉 Tuyệt vời!', 'Bạn đã ghép hết tất cả!<br>Chiến thắng rực rỡ! 🏆✨', true);
                     }
                 } else {
                     setTimeout(() => {
