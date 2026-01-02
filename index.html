@@ -2,539 +2,357 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MINI GAME ĐƯỢC TẠO BỞI NGUYỄN CHÍ DỰ</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Roboto:wght@400;700&display=swap');
+
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
-            text-align: center;
-            touch-action: manipulation;
-            overscroll-behavior: none;
-        }
-        .header {
-            margin: 30px 0;
+            color: #333;
+            background-attachment: fixed;
         }
         h1 {
-            font-size: 48px;
-            color: #fff;
-            text-shadow: 3px 3px 0px #ff6b6b, 6px 6px 0px rgba(0,0,0,0.2);
-            margin: 0;
-            letter-spacing: 3px;
-            animation: glow 2s ease-in-out infinite alternate;
+            font-family: 'Comic Neue', cursive;
+            font-size: 3em;
+            color: #ff4757;
+            text-shadow: 3px 3px 0px #fff;
+            margin-bottom: 0;
         }
-        .subtitle {
-            font-size: 28px;
-            color: #fff;
-            font-weight: bold;
-            margin: 15px 0 40px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            animation: bounce 3s infinite;
+        h2 {
+            font-size: 2em;
+            color: #e84393;
+            margin-top: 10px;
         }
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #ff6b6b, 0 0 20px #ff6b6b; }
-            to { text-shadow: 0 0 20px #ff9a9e, 0 0 30px #ff6b6b; }
+        .heart {
+            color: #ff6b6b;
+            animation: pulse 1.5s infinite;
         }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
-        .menu {
-            margin: 30px;
+        .game-container {
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 700px;
+            transition: transform 0.3s;
+        }
+        .game-container:hover {
+            transform: translateY(-10px);
+        }
+        h3 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.2em;
+            color: #2f3542;
+            margin-bottom: 20px;
         }
         button {
             padding: 15px 30px;
             margin: 10px;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
-            background: linear-gradient(to bottom, #4facfe, #00f2fe);
-            color: white;
             border: none;
             border-radius: 50px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255,107,129,0.4);
             transition: all 0.3s;
-            touch-action: manipulation;
         }
         button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            background: #ff4757;
+            transform: scale(1.1);
         }
-        .game-container {
-            display: none;
-            margin: 40px auto;
-            max-width: 600px;
-            background: rgba(255,255,255,0.9);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        button:active {
+            transform: scale(0.95);
         }
-        canvas {
-            background-color: #fff;
-            border: 3px solid #333;
-            border-radius: 10px;
-            max-width: 100%;
-            height: auto;
-            touch-action: none;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-        .modal-content {
-            background: white;
-            padding: 30px;
+        #rps-options button, #bau-cua-options button {
+            width: 120px;
+            height: 120px;
+            font-size: 60px;
             border-radius: 20px;
-            text-align: center;
-            max-width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: popIn 0.5s ease;
+            background: #ffa502;
+            box-shadow: 0 8px 20px rgba(255,165,2,0.4);
         }
-        @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        #rps-options button:hover, #bau-cua-options button:hover {
+            background: #ff6348;
+            transform: scale(1.15);
         }
-        .modal-content h2 {
-            font-size: 36px;
-            margin: 10px 0;
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 120px);
+            gap: 10px;
+            margin: 30px auto;
+            justify-content: center;
         }
-        .modal-content p {
-            font-size: 24px;
-            margin: 20px 0;
+        .cell {
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
-        .restart-btn {
-            padding: 15px 30px;
-            font-size: 22px;
-            background: linear-gradient(to bottom, #ff7e5f, #feb47b);
-            border-radius: 50px;
+        .cell:hover {
+            background: #dfe4ea;
+            transform: scale(1.05);
         }
-        @media (max-width: 768px) {
-            h1 { font-size: 36px; }
-            .subtitle { font-size: 22px; }
-            button { font-size: 16px; padding: 10px 20px; }
-            .modal-content h2 { font-size: 28px; }
-            .modal-content p { font-size: 20px; }
+        p#rps-result, p#bau-cua-result, p#tic-result {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2f3542;
+            min-height: 50px;
         }
-        @media (max-width: 480px) {
-            h1 { font-size: 28px; }
-            .subtitle { font-size: 18px; }
+        #footer {
+            margin-top: 60px;
+            padding: 20px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        #snakeControls {
+        #report-form {
             display: none;
-            margin-top: 15px;
+            margin-top: 20px;
         }
-        @media (pointer: coarse) {
-            #snakeControls { display: block; }
+        input[type="email"], textarea {
+            padding: 15px;
+            width: 80%;
+            border-radius: 20px;
+            border: 2px solid #ff6b81;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
         }
-        #snakeControls button {
-            padding: 12px 20px;
-            margin: 5px;
-            font-size: 18px;
-            width: 60px;
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        #success-message {
+            display: none;
+            background: #2ed573;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.4em;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(46,213,115,0.4);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 1.6em; }
+            .game-container { padding: 20px; }
+            #board { grid-template-columns: repeat(3, 90px); }
+            .cell { width: 90px; height: 90px; font-size: 50px; }
+            #rps-options button, #bau-cua-options button { width: 90px; height: 90px; font-size: 45px; }
+            input[type="email"], textarea { width: 90%; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎮 MINI GAME ĐƯỢC TẠO BỞI NGUYỄN CHÍ DỰ 🎉</h1>
-        <div class="subtitle">🥳 CHÚC CÁC BẠN CHƠI MINI GAME VUI VẺ 🥳</div>
+    <h1>MINI GAME ĐƯỢC TẠO BỞI NGUYỄN CHÍ DỰ</h1>
+    <h2>CHÚC AE CHƠI VUI VẺ <span class="heart">♥️</span> THÔI :))</h2>
+
+    <div class="game-container">
+        <h3>🪨✋✌️ Oẳn Tù Tì</h3>
+        <p>Chọn một lựa chọn đi nào!</p>
+        <div id="rps-options">
+            <button onclick="playRPS('✊')">✊ Búa</button>
+            <button onclick="playRPS('✋')">✋ Bao</button>
+            <button onclick="playRPS('✌️')">✌️ Kéo</button>
+        </div>
+        <p id="rps-result"></p>
+        <button onclick="restartRPS()">🔄 Khởi động lại</button>
+        <button onclick="quitGame('Oẳn Tù Tì')">✋ Bỏ cuộc</button>
     </div>
 
-    <p style="font-size: 20px; color: white; text-shadow: 1px 1px 2px black;">Chọn một mini game phổ biến ở Việt Nam để chơi nào! 🚀</p>
-    
-    <div class="menu">
-        <button onclick="showGame('snake')">🐍 Rắn Săn Mồi</button>
-        <button onclick="showGame('tictactoe')">⭕ Ô Ăn Quan (Cờ Caro)</button>
-        <button onclick="showGame('flappy')">🐦 Flappy Bird</button>
-        <button onclick="showGame('pikachu')">🀄 Pikachu Ghép Cặp</button>
+    <div class="game-container">
+        <h3>❌⭕ Cờ Caro</h3>
+        <div id="board"></div>
+        <p id="tic-result"></p>
+        <button onclick="restartTic()">🔄 Khởi động lại</button>
+        <button onclick="quitGame('Cờ Caro')">✋ Bỏ cuộc</button>
     </div>
 
-    <!-- Rắn Săn Mồi -->
-    <div id="snake" class="game-container">
-        <h2>🐍 Rắn Săn Mồi</h2>
-        <p>Dùng phím mũi tên (PC/Mac) hoặc nút dưới (mobile) để di chuyển.</p>
-        <canvas id="snakeCanvas" width="400" height="400"></canvas>
-        <div id="snakeScore" style="font-size:24px;font-weight:bold;margin:15px;">Điểm: 0</div>
-        <div id="snakeControls">
-            <button onclick="changeDirection('up')">↑</button><br>
-            <button onclick="changeDirection('left')">←</button>
-            <button onclick="changeDirection('down')">↓</button>
-            <button onclick="changeDirection('right')">→</button>
+    <div class="game-container">
+        <h3>🎲 Bầu Cua Tôm Cá</h3>
+        <p>Chọn con vật may mắn của bạn!</p>
+        <div id="bau-cua-options">
+            <button onclick="playBauCua('🦌')">🦌 Nai</button>
+            <button onclick="playBauCua('🍉')">🍉 Bầu</button>
+            <button onclick="playBauCua('🐔')">🐔 Gà</button>
+            <button onclick="playBauCua('🦀')">🦀 Cua</button>
+            <button onclick="playBauCua('🦐')">🦐 Tôm</button>
+            <button onclick="playBauCua('🐟')">🐟 Cá</button>
+        </div>
+        <p id="bau-cua-result"></p>
+        <button onclick="restartBauCua()">🔄 Khởi động lại</button>
+        <button onclick="quitGame('Bầu Cua Tôm Cá')">✋ Bỏ cuộc</button>
+    </div>
+
+    <div id="footer">
+        <p><strong>MADE BY : NGUYỄN CHÍ DỰ</strong> ♥️</p>
+        <button onclick="showReportForm()">🐞 REPORT BUGS</button>
+        
+        <div id="report-form">
+            <p>Điền thông tin để báo lỗi nhé:</p>
+            <input type="email" id="user-email" placeholder="Gmail của bạn (bắt buộc)">
+            <textarea id="bug-message" placeholder="Mô tả chi tiết lỗi bạn gặp phải... (ví dụ: game nào, lỗi gì, trên thiết bị nào)"></textarea>
+            <button onclick="reportBug()">📤 Gửi báo lỗi</button>
+            <p>Gmail hỗ trợ: <strong>Herogoodboymc2024@gmail.com</strong></p>
+        </div>
+
+        <div id="success-message">
+            ĐƠN HỖ TRỢ CỦA BẠN ĐÃ ĐƯỢC GỬI, VUI LÒNG KIỂM TRA GMAIL CỦA BẠN VÀ ĐỢI TRONG 24H HOẶC HƠN NẾU OWNER BẬN ♥️
         </div>
     </div>
-
-    <!-- Ô Ăn Quan (Cờ Caro) -->
-    <div id="tictactoe" class="game-container">
-        <h2>⭕ Ô Ăn Quan (Cờ Caro)</h2>
-        <p>Chơi với máy tính. Bạn là X, máy là O.</p>
-        <table style="margin: auto; border-collapse: separate; border-spacing: 10px;">
-            <tr>
-                <td onclick="playTTT(0)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt0" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(1)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt1" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(2)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt2" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-            </tr>
-            <tr>
-                <td onclick="playTTT(3)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt3" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(4)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt4" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(5)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt5" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-            </tr>
-            <tr>
-                <td onclick="playTTT(6)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt6" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(7)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt7" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(8)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt8" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-            </tr>
-        </table>
-        <p id="tttStatus" style="font-size:24px;font-weight:bold;margin:20px 0;"></p>
-    </div>
-
-    <!-- Flappy Bird -->
-    <div id="flappy" class="game-container">
-        <h2>🐦 Flappy Bird</h2>
-        <p>Nhấn Space (PC/Mac) hoặc chạm màn hình (mobile) để bay lên!</p>
-        <canvas id="flappyCanvas" width="400" height="500"></canvas>
-        <div id="flappyScore" style="font-size:24px;font-weight:bold;margin:15px;">Điểm: 0</div>
-    </div>
-
-    <!-- Pikachu Ghép Cặp -->
-    <div id="pikachu" class="game-container">
-        <h2>🀄 Pikachu Ghép Cặp</h2>
-        <p>Chạm/click hai ô giống nhau để ghép đôi!</p>
-        <div id="pikachuBoard" style="display: grid; grid-template-columns: repeat(4, 70px); gap: 10px; margin: 20px auto; width: fit-content;"></div>
-        <p id="pikachuStatus" style="font-size:24px;font-weight:bold;margin:20px;">Còn lại: <span id="pairsLeft">8</span> cặp</p>
-    </div>
-
-    <!-- Modal kết thúc game -->
-    <div id="gameModal" class="modal">
-        <div class="modal-content">
-            <h2 id="modalTitle">🎉 Chúc mừng!</h2>
-            <p id="modalMessage">Bạn đã thắng với điểm số tuyệt vời!</p>
-            <button class="restart-btn" onclick="restartCurrentGame()">🔄 Chơi lại</button>
-        </div>
-    </div>
-
-    <!-- Âm thanh (royalty-free từ nguồn uy tín) -->
-    <audio id="eatSound" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3d1e5f5a5e.mp3?filename=coin-pickup-98268.mp3"></audio> <!-- Coin eat -->
-    <audio id="jumpSound" preload="auto" src="https://www.orangefreesounds.com/wp-content/uploads/2016/02/Flapping-wings-sound-effect-free-mp3-download.mp3"></audio> <!-- Wing flap -->
-    <audio id="matchSound" preload="auto" src="https://mixkit.co/free-sound-effects/download/mixkit-arcade-game-jump-coin-216.wav"></audio> <!-- Success chime (tương tự coin nhưng vui) -->
-    <audio id="gameOverSound" preload="auto" src="https://mixkit.co/free-sound-effects/download/mixkit-losing-piano-2021.wav"></audio> <!-- Game over sad -->
-    <audio id="victorySound" preload="auto" src="https://mixkit.co/free-sound-effects/download/mixkit-fanfare-trumpet-199.wav"></audio> <!-- Victory fanfare short -->
 
     <script>
-        let currentGame = '';
-
-        function showGame(gameId) {
-            document.querySelectorAll('.game-container').forEach(div => div.style.display = 'none');
-            document.getElementById(gameId).style.display = 'block';
-            currentGame = gameId;
-            if (gameId === 'snake') initSnake();
-            if (gameId === 'flappy') initFlappy();
-            if (gameId === 'pikachu') initPikachu();
-            if (gameId === 'tictactoe') resetTTT();
-            adjustCanvasSize();
-            document.getElementById('gameModal').style.display = 'none';
-        }
-
-        function showModal(title, message, isVictory = false) {
-            document.getElementById('modalTitle').innerHTML = title;
-            document.getElementById('modalMessage').innerHTML = message;
-            document.getElementById('gameModal').style.display = 'flex';
-            playSound(isVictory ? 'victorySound' : 'gameOverSound');
-        }
-
-        function restartCurrentGame() {
-            document.getElementById('gameModal').style.display = 'none';
-            if (currentGame === 'snake') initSnake();
-            if (currentGame === 'flappy') initFlappy();
-            if (currentGame === 'pikachu') initPikachu();
-            if (currentGame === 'tictactoe') resetTTT();
-        }
-
-        function playSound(id) {
-            const sound = document.getElementById(id);
-            if (sound) {
-                sound.currentTime = 0;
-                sound.play().catch(() => {}); // Tránh lỗi autoplay trên mobile
+        // Common functions
+        function quitGame(gameName) {
+            if (confirm(`Bạn có chắc muốn bỏ cuộc trò chơi ${gameName} không? 😢`)) {
+                alert('Hẹn gặp lại nhé! Chơi lại khi nào muốn nha ♥️');
+                location.reload();
             }
         }
 
-        function adjustCanvasSize() {
-            const canvases = document.querySelectorAll('canvas');
-            canvases.forEach(canvas => {
-                const maxWidth = Math.min(window.innerWidth - 40, 400);
-                const ratio = canvas.height / canvas.width;
-                canvas.style.width = `${maxWidth}px`;
-                canvas.style.height = `${maxWidth * ratio}px`;
-            });
-        }
-        window.addEventListener('resize', adjustCanvasSize);
-
-        // Rắn Săn Mồi (ĐÃ FIX BUG + ĐIỂM)
-        let snakeCanvas, snakeCtx, snakeScore = 0;
-        let snake = [{x: 200, y: 200}];
-        let dx = 10, dy = 0;
-        let foodX, foodY;
-        let lastFrameTime = 0;
-        let frameInterval = 100;
-        let pendingDirection = null;
-
-        function initSnake() {
-            snakeCanvas = document.getElementById('snakeCanvas');
-            snakeCtx = snakeCanvas.getContext('2d');
-            snakeScore = 0;
-            document.getElementById('snakeScore').innerText = 'Điểm: 0';
-            snake = [{x: 200, y: 200}];
-            dx = 10; dy = 0;
-            pendingDirection = null;
-            createFood();
-            lastFrameTime = performance.now();
-            requestAnimationFrame(updateSnake);
-        }
-
-        function createFood() {
-            foodX = Math.floor(Math.random() * 40) * 10; // Chính xác bội 10: 0,10,20,...,390
-            foodY = Math.floor(Math.random() * 40) * 10;
-        }
-
-        function updateSnake(currentTime) {
-            if (currentTime - lastFrameTime > frameInterval) {
-                lastFrameTime = currentTime;
-
-                if (pendingDirection) {
-                    switch (pendingDirection) {
-                        case 'up': if (dy === 0) { dx = 0; dy = -10; } break;
-                        case 'down': if (dy === 0) { dx = 0; dy = 10; } break;
-                        case 'left': if (dx === 0) { dx = -10; dy = 0; } break;
-                        case 'right': if (dx === 0) { dx = 10; dy = 0; } break;
-                    }
-                    pendingDirection = null;
-                }
-
-                snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-
-                // Vẽ rắn
-                snake.forEach(part => {
-                    snakeCtx.fillStyle = '#4CAF50';
-                    snakeCtx.fillRect(part.x, part.y, 10, 10);
-                    snakeCtx.strokeStyle = '#388E3C';
-                    snakeCtx.strokeRect(part.x, part.y, 10, 10);
-                });
-
-                // Vẽ mồi
-                snakeCtx.fillStyle = '#FF5722';
-                snakeCtx.fillRect(foodX, foodY, 10, 10);
-
-                let head = {x: snake[0].x + dx, y: snake[0].y + dy};
-
-                // Va chạm tường hoặc thân
-                if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height || snake.slice(1).some(part => part.x === head.x && part.y === head.y)) {
-                    showModal('💔 Game Over!', `Bạn đạt <strong>${snakeScore}</strong> điểm!<br>Rất tiếc nhé 😢`, false);
-                    return;
-                }
-
-                snake.unshift(head);
-
-                // Ăn mồi (bây giờ chính xác 100%)
-                if (head.x === foodX && head.y === foodY) {
-                    snakeScore++;
-                    document.getElementById('snakeScore').innerText = 'Điểm: ' + snakeScore;
-                    createFood();
-                    playSound('eatSound');
-                } else {
-                    snake.pop();
-                }
+        // Oẳn tù tì
+        const rpsChoices = ['✊', '✋', '✌️'];
+        const rpsNames = { '✊': 'Búa', '✋': 'Bao', '✌️': 'Kéo' };
+        function playRPS(playerChoice) {
+            const computerChoice = rpsChoices[Math.floor(Math.random() * 3)];
+            let result = '';
+            if (playerChoice === computerChoice) {
+                result = '🤝 Hòa!';
+            } else if (
+                (playerChoice === '✊' && computerChoice === '✌️') ||
+                (playerChoice === '✋' && computerChoice === '✊') ||
+                (playerChoice === '✌️' && computerChoice === '✋')
+            ) {
+                result = '🎉 Bạn thắng!';
+            } else {
+                result = '😭 Máy thắng!';
             }
-            requestAnimationFrame(updateSnake);
+            document.getElementById('rps-result').innerHTML = `<strong>Bạn:</strong> \( {playerChoice} ( \){rpsNames[playerChoice]})<br>
+            <strong>Máy:</strong> \( {computerChoice} ( \){rpsNames[computerChoice]})<br><br>${result}`;
         }
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowUp') pendingDirection = 'up';
-            if (e.key === 'ArrowDown') pendingDirection = 'down';
-            if (e.key === 'ArrowLeft') pendingDirection = 'left';
-            if (e.key === 'ArrowRight') pendingDirection = 'right';
-        });
-
-        function changeDirection(dir) {
-            pendingDirection = dir;
-        }
-
-        // Cờ Caro
-        let tttBoard = Array(9).fill(null);
-
-        function playTTT(index) {
-            if (tttBoard[index] || checkWinner(tttBoard)) return;
-            tttBoard[index] = 'X';
-            document.getElementById('ttt' + index).innerText = 'X';
-            if (checkWinner(tttBoard)) {
-                showModal('🎉 Chúc mừng!', 'Bạn đã thắng trận cờ caro này! 🏆<br>Giỏi quá đi!', true);
-                return;
-            }
-            if (tttBoard.every(cell => cell)) {
-                showModal('🤝 Hòa nhau!', 'Không ai thắng, chơi lại nào!<br>Bạn chơi hay lắm 👍', false);
-                return;
-            }
-            setTimeout(computerMove, 500);
-        }
-
-        function computerMove() {
-            // Logic AI như trước (đã ổn)
-            let bestMove = -1;
-            for (let i = 0; i < 9; i++) {
-                if (!tttBoard[i]) {
-                    tttBoard[i] = 'X';
-                    if (checkWinner(tttBoard)) { bestMove = i; tttBoard[i] = null; break; }
-                    tttBoard[i] = null;
-                }
-            }
-            if (bestMove === -1) {
-                for (let i = 0; i < 9; i++) {
-                    if (!tttBoard[i]) {
-                        tttBoard[i] = 'O';
-                        if (checkWinner(tttBoard)) { bestMove = i; tttBoard[i] = null; break; }
-                        tttBoard[i] = null;
-                    }
-                }
-            }
-            if (bestMove === -1) {
-                let available = tttBoard.map((v, i) => v === null ? i : null).filter(v => v !== null);
-                bestMove = available[Math.floor(Math.random() * available.length)];
-            }
-            tttBoard[bestMove] = 'O';
-            document.getElementById('ttt' + bestMove).innerText = 'O';
-            if (checkWinner(tttBoard)) {
-                showModal('🤖 Máy thắng!', 'Máy tính thắng rồi!<br>Thử lại nhé 💪', false);
-            } else if (tttBoard.every(cell => cell)) {
-                showModal('🤝 Hòa nhau!', 'Lại hòa! Chơi thêm ván nào 🎲', false);
+        function restartRPS() {
+            if (confirm('Khởi động lại Oẳn Tù Tì nhé? 🔄')) {
+                document.getElementById('rps-result').innerText = '';
             }
         }
 
-        function checkWinner(board) {
-            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-            return wins.some(combo => combo.every(i => board[i] === board[combo[0]] && board[i]));
-        }
-
-        function resetTTT() {
-            tttBoard = Array(9).fill(null);
-            for (let i = 0; i < 9; i++) document.getElementById('ttt' + i).innerText = ' ';
-            document.getElementById('tttStatus').innerText = '';
-        }
-
-        // Flappy Bird
-        let flappyCanvas, flappyCtx, birdY = 250, birdVelocity = 0, pipes = [], flappyScore = 0;
-        let gravity = 0.5, jump = -10;
-
-        function initFlappy() {
-            flappyCanvas = document.getElementById('flappyCanvas');
-            flappyCtx = flappyCanvas.getContext('2d');
-            birdY = 250; birdVelocity = 0; pipes = []; flappyScore = 0;
-            document.getElementById('flappyScore').innerText = 'Điểm: 0';
-            pipes.push({x: 400, gap: Math.random() * 200 + 100});
-            requestAnimationFrame(updateFlappy);
-        }
-
-        function updateFlappy() {
-            flappyCtx.clearRect(0, 0, flappyCanvas.width, flappyCanvas.height);
-            birdVelocity += gravity;
-            birdY += birdVelocity;
-
-            if (birdY > flappyCanvas.height - 30 || birdY < 0) {
-                showModal('💥 Va chạm!', `Bạn đạt <strong>${flappyScore}</strong> điểm!<br>Cố lên lần sau nhé 🚀`, false);
-                return;
-            }
-
-            flappyCtx.fillStyle = '#FFEB3B';
-            flappyCtx.fillRect(50, birdY, 40, 30);
-            flappyCtx.fillStyle = '#000';
-            flappyCtx.fillRect(80, birdY + 10, 15, 10);
-
-            pipes.forEach(pipe => {
-                pipe.x -= 2;
-                flappyCtx.fillStyle = '#4CAF50';
-                flappyCtx.fillRect(pipe.x, 0, 60, pipe.gap);
-                flappyCtx.fillRect(pipe.x, pipe.gap + 150, 60, flappyCanvas.height - pipe.gap - 150);
-
-                if (pipe.x + 60 === 90) {
-                    flappyScore++;
-                    document.getElementById('flappyScore').innerText = 'Điểm: ' + flappyScore;
-                    playSound('eatSound');
-                }
-
-                if (pipe.x < 90 && pipe.x > 10 && (birdY < pipe.gap || birdY + 30 > pipe.gap + 150)) {
-                    showModal('💥 Game Over!', `Điểm cao: <strong>${flappyScore}</strong><br>Bạn bay giỏi lắm! 🐦`, false);
-                    return;
-                }
-            });
-
-            if (pipes[pipes.length-1].x < 200) pipes.push({x: 400, gap: Math.random() * 200 + 100});
-            if (pipes[0].x < -60) pipes.shift();
-
-            requestAnimationFrame(updateFlappy);
-        }
-
-        document.addEventListener('keydown', e => { if (e.key === ' ') { birdVelocity = jump; playSound('jumpSound'); } });
-        flappyCanvas.addEventListener('touchstart', e => { e.preventDefault(); birdVelocity = jump; playSound('jumpSound'); });
-
-        // Pikachu
-        const emojis = ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼'];
-        let pikachuCards = [...emojis, ...emojis];
-        let selected = [];
-
-        function initPikachu() {
-            pikachuCards.sort(() => Math.random() - 0.5);
-            const board = document.getElementById('pikachuBoard');
+        // Cờ caro
+        let ticBoard = Array(9).fill(null);
+        let currentPlayer = 'X';
+        function initTicBoard() {
+            const board = document.getElementById('board');
             board.innerHTML = '';
-            pikachuCards.forEach((emoji, i) => {
-                const card = document.createElement('div');
-                card.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                card.style.height = '70px';
-                card.style.borderRadius = '10px';
-                card.style.display = 'flex';
-                card.style.alignItems = 'center';
-                card.style.justifyContent = 'center';
-                card.style.fontSize = '40px';
-                card.style.cursor = 'pointer';
-                card.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-                card.style.transition = 'all 0.3s ease';
-                card.onclick = () => flipCard(card, emoji);
-                card.ontouchstart = () => flipCard(card, emoji);
-                board.appendChild(card);
-            });
-            document.getElementById('pairsLeft').innerText = '8';
+            ticBoard = Array(9).fill(null);
+            currentPlayer = 'X';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.onclick = () => makeMove(i);
+                board.appendChild(cell);
+            }
+            document.getElementById('tic-result').innerText = 'Lượt đi: ' + currentPlayer;
+        }
+        function makeMove(index) {
+            if (ticBoard[index] || checkWinner()) return;
+            ticBoard[index] = currentPlayer;
+            document.querySelectorAll('.cell')[index].innerText = currentPlayer;
+            if (checkWinner()) {
+                document.getElementById('tic-result').innerHTML = `🎉 <strong>${currentPlayer}</strong> thắng rồi!`;
+            } else if (ticBoard.every(cell => cell)) {
+                document.getElementById('tic-result').innerText = '🤝 Hòa nhau!';
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                document.getElementById('tic-result').innerText = 'Lượt đi: ' + currentPlayer;
+            }
+        }
+        function checkWinner() {
+            const wins = [
+                [0,1,2], [3,4,5], [6,7,8],
+                [0,3,6], [1,4,7], [2,5,8],
+                [0,4,8], [2,4,6]
+            ];
+            return wins.some(combo => ticBoard[combo[0]] && ticBoard[combo[0]] === ticBoard[combo[1]] && ticBoard[combo[1]] === ticBoard[combo[2]]);
+        }
+        function restartTic() {
+            if (confirm('Khởi động lại Cờ Caro nhé? 🔄')) {
+                initTicBoard();
+            }
+        }
+        initTicBoard();
+
+        // Bầu cua
+        const bauCuaChoices = ['🦌', '🍉', '🐔', '🦀', '🦐', '🐟'];
+        const bauCuaNames = {'🦌':'Nai', '🍉':'Bầu', '🐔':'Gà', '🦀':'Cua', '🦐':'Tôm', '🐟':'Cá'};
+        function playBauCua(playerChoice) {
+            const result1 = bauCuaChoices[Math.floor(Math.random() * 6)];
+            const result2 = bauCuaChoices[Math.floor(Math.random() * 6)];
+            const result3 = bauCuaChoices[Math.floor(Math.random() * 6)];
+            const counts = [result1, result2, result3].filter(x => x === playerChoice).length;
+            let message = counts > 0 ? `🎉 Bạn thắng ${counts} lần!` : '😭 Bạn thua rồi!';
+            document.getElementById('bau-cua-result').innerHTML = `<strong>Bạn chọn:</strong> \( {playerChoice} ( \){bauCuaNames[playerChoice]})<br>
+            <strong>Kết quả lắc:</strong> ${result1} ${result2} \( {result3}<br><br> \){message}`;
+        }
+        function restartBauCua() {
+            if (confirm('Lắc lại Bầu Cua nhé? 🔄')) {
+                document.getElementById('bau-cua-result').innerText = '';
+            }
         }
 
-        function flipCard(card, emoji) {
-            if (card.innerText || selected.length === 2) return;
-            card.innerText = emoji;
-            card.style.background = '#fff';
-            selected.push({card, emoji});
-            if (selected.length === 2) {
-                if (selected[0].emoji === selected[1].emoji) {
-                    selected[0].card.style.background = '#a8e6cf';
-                    selected[1].card.style.background = '#a8e6cf';
-                    selected[0].card.style.cursor = 'default';
-                    selected[1].card.style.cursor = 'default';
-                    playSound('matchSound');
-                    let pairs = parseInt(document.getElementById('pairsLeft').innerText) - 1;
-                    document.getElementById('pairsLeft').innerText = pairs;
-                    if (pairs === 0) {
-                        showModal('🎉 Tuyệt vời!', 'Bạn đã ghép hết tất cả!<br>Chiến thắng rực rỡ! 🏆✨', true);
-                    }
-                } else {
-                    setTimeout(() => {
-                        selected[0].card.innerText = '';
-                        selected[1].card.innerText = '';
-                        selected[0].card.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                        selected[1].card.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                    }, 800);
-                }
-                selected = [];
+        // Report bugs
+        function showReportForm() {
+            document.getElementById('report-form').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+        }
+        function reportBug() {
+            const userEmail = document.getElementById('user-email').value.trim();
+            const bugMessage = document.getElementById('bug-message').value.trim();
+
+            if (!userEmail) {
+                alert('Nhớ điền Gmail của bạn trước khi gửi nhé! 😊');
+                return;
             }
+            if (!bugMessage) {
+                alert('Hãy mô tả lỗi bạn gặp phải để mình sửa nhanh hơn nha! 💪');
+                return;
+            }
+
+            const subject = encodeURIComponent(`[BÁO LỖI MINI GAME] Từ: ${userEmail}`);
+            const body = encodeURIComponent(
+`Người báo lỗi: ${userEmail}
+
+Mô tả lỗi:
+${bugMessage}
+
+(Cảm ơn bạn đã báo lỗi, mình sẽ xử lý sớm nhất có thể ♥️)`
+            );
+
+            window.location.href = `mailto:Herogoodboymc2024@gmail.com?subject=\( {subject}&body= \){body}`;
+
+            document.getElementById('report-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
         }
     </script>
 </body>
