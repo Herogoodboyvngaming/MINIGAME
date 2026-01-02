@@ -81,16 +81,54 @@
             height: auto;
             touch-action: none;
         }
+        /* Modal kết thúc game */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: popIn 0.5s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-content h2 {
+            font-size: 36px;
+            margin: 10px 0;
+        }
+        .modal-content p {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .restart-btn {
+            padding: 15px 30px;
+            font-size: 22px;
+            background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+            border-radius: 50px;
+        }
         /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 36px; }
             .subtitle { font-size: 22px; }
             button { font-size: 16px; padding: 10px 20px; }
+            .modal-content h2 { font-size: 28px; }
+            .modal-content p { font-size: 20px; }
         }
         @media (max-width: 480px) {
             h1 { font-size: 28px; }
             .subtitle { font-size: 18px; }
-            button { font-size: 14px; padding: 8px 16px; }
         }
         #snakeControls {
             display: none;
@@ -125,9 +163,9 @@
     <!-- Rắn Săn Mồi -->
     <div id="snake" class="game-container">
         <h2>🐍 Rắn Săn Mồi</h2>
-        <p>Dùng phím mũi tên (PC/Mac) hoặc nút dưới (mobile) để di chuyển. Ăn thức ăn để dài ra nhé!</p>
+        <p>Dùng phím mũi tên (PC/Mac) hoặc nút dưới (mobile) để di chuyển.</p>
         <canvas id="snakeCanvas" width="400" height="400"></canvas>
-        <div id="snakeScore">Điểm: 0</div>
+        <div id="snakeScore" style="font-size:24px;font-weight:bold;margin:15px;">Điểm: 0</div>
         <div id="snakeControls">
             <button onclick="changeDirection('up')">↑</button><br>
             <button onclick="changeDirection('left')">←</button>
@@ -142,23 +180,22 @@
         <p>Chơi với máy tính. Bạn là X, máy là O.</p>
         <table style="margin: auto; border-collapse: separate; border-spacing: 10px;">
             <tr>
-                <td onclick="playTTT(0)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt0" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(1)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt1" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(2)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt2" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(0)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt0" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(1)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt1" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(2)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt2" style="margin:0;font-size:60px;">&nbsp;</h1></td>
             </tr>
             <tr>
-                <td onclick="playTTT(3)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt3" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(4)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt4" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(5)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt5" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(3)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt3" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(4)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt4" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(5)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt5" style="margin:0;font-size:60px;">&nbsp;</h1></td>
             </tr>
             <tr>
-                <td onclick="playTTT(6)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt6" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(7)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt7" style="margin:0;font-size:60px;">&nbsp;</h1></td>
-                <td onclick="playTTT(8)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);"><h1 id="ttt8" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(6)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt6" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(7)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt7" style="margin:0;font-size:60px;">&nbsp;</h1></td>
+                <td onclick="playTTT(8)" style="width:80px;height:80px;background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.2);cursor:pointer;"><h1 id="ttt8" style="margin:0;font-size:60px;">&nbsp;</h1></td>
             </tr>
         </table>
-        <button onclick="resetTTT()" style="margin-top:20px;padding:10px 20px;font-size:18px;">Chơi lại</button>
-        <p id="tttStatus" style="font-size:20px;font-weight:bold;margin-top:15px;"></p>
+        <p id="tttStatus" style="font-size:24px;font-weight:bold;margin:20px 0;"></p>
     </div>
 
     <!-- Flappy Bird -->
@@ -166,27 +203,53 @@
         <h2>🐦 Flappy Bird</h2>
         <p>Nhấn Space (PC/Mac) hoặc chạm màn hình (mobile) để bay lên!</p>
         <canvas id="flappyCanvas" width="400" height="500"></canvas>
-        <div id="flappyScore">Điểm: 0</div>
+        <div id="flappyScore" style="font-size:24px;font-weight:bold;margin:15px;">Điểm: 0</div>
     </div>
 
     <!-- Pikachu Ghép Cặp -->
     <div id="pikachu" class="game-container">
         <h2>🀄 Pikachu Ghép Cặp</h2>
-        <p>Click/chạm hai ô giống nhau để ghép đôi nhé!</p>
+        <p>Chạm/click hai ô giống nhau để ghép đôi!</p>
         <div id="pikachuBoard" style="display: grid; grid-template-columns: repeat(4, 70px); gap: 10px; margin: 20px auto; width: fit-content;"></div>
-        <button onclick="initPikachu()" style="padding:10px 20px;font-size:18px;">Chơi lại</button>
-        <p id="pikachuStatus" style="font-size:20px;font-weight:bold;">Còn lại: <span id="pairsLeft">8</span> cặp</p>
+        <p id="pikachuStatus" style="font-size:24px;font-weight:bold;margin:20px;">Còn lại: <span id="pairsLeft">8</span> cặp</p>
+    </div>
+
+    <!-- Modal kết thúc game (chung cho tất cả game) -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">🎉 Chúc mừng!</h2>
+            <p id="modalMessage">Bạn đã thắng với điểm số tuyệt vời!</p>
+            <button class="restart-btn" onclick="restartCurrentGame()">🔄 Chơi lại</button>
+        </div>
     </div>
 
     <script>
+        let currentGame = ''; // Lưu game đang chơi để restart đúng
+
         function showGame(gameId) {
             document.querySelectorAll('.game-container').forEach(div => div.style.display = 'none');
             document.getElementById(gameId).style.display = 'block';
+            currentGame = gameId;
             if (gameId === 'snake') initSnake();
             if (gameId === 'flappy') initFlappy();
             if (gameId === 'pikachu') initPikachu();
             if (gameId === 'tictactoe') resetTTT();
             adjustCanvasSize();
+            document.getElementById('gameModal').style.display = 'none'; // Ẩn modal nếu đang mở
+        }
+
+        function showModal(title, message) {
+            document.getElementById('modalTitle').innerHTML = title;
+            document.getElementById('modalMessage').innerHTML = message;
+            document.getElementById('gameModal').style.display = 'flex';
+        }
+
+        function restartCurrentGame() {
+            document.getElementById('gameModal').style.display = 'none';
+            if (currentGame === 'snake') initSnake();
+            if (currentGame === 'flappy') initFlappy();
+            if (currentGame === 'pikachu') initPikachu();
+            if (currentGame === 'tictactoe') resetTTT();
         }
 
         function adjustCanvasSize() {
@@ -200,7 +263,7 @@
         }
         window.addEventListener('resize', adjustCanvasSize);
 
-        // Rắn Săn Mồi
+        // ==================== Rắn Săn Mồi ====================
         let snakeCanvas, snakeCtx, snakeScore = 0;
         let snake = [{x: 200, y: 200}];
         let dx = 10, dy = 0;
@@ -256,7 +319,7 @@
                 let head = {x: snake[0].x + dx, y: snake[0].y + dy};
 
                 if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height || snake.slice(1).some(part => part.x === head.x && part.y === head.y)) {
-                    alert('Game Over! Điểm của bạn: ' + snakeScore);
+                    showModal('💔 Game Over!', `Bạn đã đạt <strong>${snakeScore}</strong> điểm!<br>Rất tiếc bạn thua rồi 😢`);
                     return;
                 }
 
@@ -284,21 +347,22 @@
             pendingDirection = dir;
         }
 
-        // Cờ Caro
+        // ==================== Cờ Caro ====================
         let tttBoard = Array(9).fill(null);
+
         function playTTT(index) {
             if (tttBoard[index] || checkWinner(tttBoard)) return;
             tttBoard[index] = 'X';
             document.getElementById('ttt' + index).innerText = 'X';
             if (checkWinner(tttBoard)) {
-                document.getElementById('tttStatus').innerText = '🎉 Bạn thắng rồi!';
+                showModal('🎉 Chúc mừng!', 'Bạn đã thắng trận cờ caro này! 🏆<br>Giỏi quá đi!');
                 return;
             }
             if (tttBoard.every(cell => cell)) {
-                document.getElementById('tttStatus').innerText = 'Hòa nhau!';
+                showModal('🤝 Hòa nhau!', 'Không ai thắng, chơi lại nào!<br>Bạn chơi hay lắm 👍');
                 return;
             }
-            setTimeout(computerMove, 300);
+            setTimeout(computerMove, 500);
         }
 
         function computerMove() {
@@ -325,8 +389,11 @@
             }
             tttBoard[bestMove] = 'O';
             document.getElementById('ttt' + bestMove).innerText = 'O';
-            if (checkWinner(tttBoard)) document.getElementById('tttStatus').innerText = '🤖 Máy thắng!';
-            else if (tttBoard.every(cell => cell)) document.getElementById('tttStatus').innerText = 'Hòa nhau!';
+            if (checkWinner(tttBoard)) {
+                showModal('🤖 Máy thắng!', 'Máy tính đã thắng lần này!<br>Bạn chơi rất tốt, thử lại nhé 💪');
+            } else if (tttBoard.every(cell => cell)) {
+                showModal('🤝 Hòa nhau!', 'Lại hòa nữa rồi!<br>Chơi thêm ván khác nào 🎲');
+            }
         }
 
         function checkWinner(board) {
@@ -340,7 +407,7 @@
             document.getElementById('tttStatus').innerText = '';
         }
 
-        // Flappy Bird
+        // ==================== Flappy Bird ====================
         let flappyCanvas, flappyCtx, birdY = 250, birdVelocity = 0, pipes = [], flappyScore = 0;
         let gravity = 0.5, jump = -10;
 
@@ -359,7 +426,7 @@
             birdY += birdVelocity;
 
             if (birdY > flappyCanvas.height - 30 || birdY < 0) {
-                alert('Game Over! Điểm của bạn: ' + flappyScore);
+                showModal('💥 Va chạm!', `Bạn đạt <strong>${flappyScore}</strong> điểm!<br>Cố lên, lần sau sẽ cao hơn nhé 🚀`);
                 return;
             }
 
@@ -380,7 +447,7 @@
                 }
 
                 if (pipe.x < 90 && pipe.x > 10 && (birdY < pipe.gap || birdY + 30 > pipe.gap + 150)) {
-                    alert('Game Over! Điểm của bạn: ' + flappyScore);
+                    showModal('💥 Game Over!', `Điểm cao nhất: <strong>${flappyScore}</strong><br>Bạn bay rất giỏi rồi! 🐦`);
                     return;
                 }
             });
@@ -394,7 +461,7 @@
         document.addEventListener('keydown', e => { if (e.key === ' ') birdVelocity = jump; });
         flappyCanvas.addEventListener('touchstart', e => { e.preventDefault(); birdVelocity = jump; });
 
-        // Pikachu Ghép Cặp
+        // ==================== Pikachu ====================
         const emojis = ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼'];
         let pikachuCards = [...emojis, ...emojis];
         let selected = [];
@@ -436,7 +503,7 @@
                     let pairs = parseInt(document.getElementById('pairsLeft').innerText) - 1;
                     document.getElementById('pairsLeft').innerText = pairs;
                     if (pairs === 0) {
-                        setTimeout(() => alert('🎉 Chúc mừng! Bạn đã ghép hết rồi!'), 300);
+                        showModal('🎉 Tuyệt vời!', 'Bạn đã ghép hết tất cả các cặp!<br>Chúc mừng chiến thắng rực rỡ! 🏆✨');
                     }
                 } else {
                     setTimeout(() => {
