@@ -88,79 +88,17 @@
         </div>
     </div>
 
-    <!-- Game areas -->
-    <div id="rps" class="game-area">
-        <h3>🪨✋✌️ Oẳn Tù Tì</h3>
-        <p>Chọn đi nào!</p>
-        <div class="choice-btns">
-            <button onclick="playRPS('✊')">✊ Búa</button>
-            <button onclick="playRPS('✋')">✋ Bao</button>
-            <button onclick="playRPS('✌️')">✌️ Kéo</button>
-        </div>
-        <p class="result" id="rps-result"></p>
-        <button onclick="restartRPS()">🔄 Lại nào</button>
-        <button onclick="backToMenu()">🔙 Về menu</button>
-    </div>
+    <div id="rps" class="game-area"><h3>🪨✋✌️ Oẳn Tù Tì</h3><p>Chọn đi nào!</p><div class="choice-btns"><button onclick="playRPS('✊')">✊ Búa</button><button onclick="playRPS('✋')">✋ Bao</button><button onclick="playRPS('✌️')">✌️ Kéo</button></div><p class="result" id="rps-result"></p><button onclick="restartRPS()">🔄 Lại nào</button><button onclick="backToMenu()">🔙 Về menu</button></div>
 
-    <div id="tic" class="game-area">
-        <h3>❌⭕ Cờ Caro</h3>
-        <div id="board"></div>
-        <p class="result" id="tic-result">Lượt đi: X</p>
-        <button onclick="restartTic()">🔄 Chơi lại</button>
-        <button onclick="backToMenu()">🔙 Về menu</button>
-    </div>
+    <div id="tic" class="game-area"><h3>❌⭕ Cờ Caro</h3><div id="board"></div><p class="result" id="tic-result">Lượt đi: X</p><button onclick="restartTic()">🔄 Chơi lại</button><button onclick="backToMenu()">🔙 Về menu</button></div>
 
-    <div id="baucua" class="game-area">
-        <h3>🎲 Bầu Cua Tôm Cá</h3>
-        <p>Chọn con vật may mắn!</p>
-        <div class="choice-btns">
-            <button onclick="playBauCua('🦌')">🦌 Nai</button>
-            <button onclick="playBauCua('🍉')">🍉 Bầu</button>
-            <button onclick="playBauCua('🐔')">🐔 Gà</button>
-            <button onclick="playBauCua('🦀')">🦀 Cua</button>
-            <button onclick="playBauCua('🦐')">🦐 Tôm</button>
-            <button onclick="playBauCua('🐟')">🐟 Cá</button>
-        </div>
-        <p class="result" id="bau-cua-result"></p>
-        <button onclick="restartBauCua()">🔄 Lắc lại</button>
-        <button onclick="backToMenu()">🔙 Về menu</button>
-    </div>
+    <div id="baucua" class="game-area"><h3>🎲 Bầu Cua Tôm Cá</h3><p>Chọn con vật may mắn!</p><div class="choice-btns"><button onclick="playBauCua('🦌')">🦌 Nai</button><button onclick="playBauCua('🍉')">🍉 Bầu</button><button onclick="playBauCua('🐔')">🐔 Gà</button><button onclick="playBauCua('🦀')">🦀 Cua</button><button onclick="playBauCua('🦐')">🦐 Tôm</button><button onclick="playBauCua('🐟')">🐟 Cá</button></div><p class="result" id="bau-cua-result"></p><button onclick="restartBauCua()">🔄 Lắc lại</button><button onclick="backToMenu()">🔙 Về menu</button></div>
 
-    <div id="hangman" class="game-area">
-        <h3>🔤 Đuổi Hình Bắt Chữ</h3>
-        <p style="font-size:1.8em;margin:20px 0;color:#ff4757"><strong>Gợi ý:</strong> <span id="hangman-hint"></span></p>
-        <p id="hangman-word" style="font-size:3em;letter-spacing:15px;margin:30px;"></p>
-        <p>Sai: <span id="wrong-letters" style="color:red;font-size:1.5em;"></span></p>
-        <div id="hangman-letters" class="choice-btns"></div>
-        <button onclick="restartHangman()">🔄 Chơi lại</button>
-        <button onclick="backToMenu()">🔙 Về menu</button>
-    </div>
+    <div id="hangman" class="game-area"><h3>🔤 Đuổi Hình Bắt Chữ</h3><p style="font-size:1.8em;margin:20px 0;color:#ff4757"><strong>Gợi ý:</strong> <span id="hangman-hint"></span></p><p id="hangman-word" style="font-size:3em;letter-spacing:15px;margin:30px;"></p><p>Sai: <span id="wrong-letters" style="color:red;font-size:1.5em;"></span></p><div id="hangman-letters" class="choice-btns"></div><button onclick="restartHangman()">🔄 Chơi lại</button><button onclick="backToMenu()">🔙 Về menu</button></div>
 
-    <div id="snake" class="game-area">
-        <h3>🐍 Rắn Săn Mồi</h3>
-        <canvas id="snake-canvas" width="400" height="400" style="background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:block;margin:0 auto;"></canvas>
-        <p class="result">Điểm: <span id="snake-score">0</span></p>
-        <div id="snake-controls">
-            <div></div>
-            <button onclick="changeDir(0,-20)">⬆️</button>
-            <div></div>
-            <button onclick="changeDir(-20,0)">⬅️</button>
-            <button onclick="changeDir(0,20)">⬇️</button>
-            <button onclick="changeDir(20,0)">➡️</button>
-        </div>
-        <button onclick="restartSnake()">🔄 Chơi lại</button>
-        <button onclick="backToMenu()">🔙 Về menu</button>
-        <p><small>Dùng phím mũi tên hoặc nút để di chuyển 🐍</small></p>
-    </div>
+    <div id="snake" class="game-area"><h3>🐍 Rắn Săn Mồi</h3><canvas id="snake-canvas" width="400" height="400" style="background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:block;margin:0 auto;"></canvas><p class="result">Điểm: <span id="snake-score">0</span></p><div id="snake-controls"><div></div><button onclick="changeDir(0,-20)">⬆️</button><div></div><button onclick="changeDir(-20,0)">⬅️</button><button onclick="changeDir(0,20)">⬇️</button><button onclick="changeDir(20,0)">➡️</button></div><button onclick="restartSnake()">🔄 Chơi lại</button><button onclick="backToMenu()">🔙 Về menu</button><p><small>Dùng phím mũi tên hoặc nút để di chuyển 🐍</small></p></div>
 
-    <div id="flappy" class="game-area">
-        <h3>🕊️ Flappy Bird</h3>
-        <canvas id="flappy-canvas" width="400" height="600" style="background:linear-gradient(#87CEEB,#E0F7FA);border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:block;margin:0 auto;"></canvas>
-        <p class="result">Điểm: <span id="flappy-score">0</span></p>
-        <p><small>Bấm màn hình/click để nhảy 🐦</small></p>
-        <button onclick="restartFlappy()">🔄 Chơi lại</button>
-        <button onclick="backToMenu()">🔙 Về menu</button>
-    </div>
+    <div id="flappy" class="game-area"><h3>🕊️ Flappy Bird</h3><canvas id="flappy-canvas" width="400" height="600" style="background:linear-gradient(#87CEEB,#E0F7FA);border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:block;margin:0 auto;"></canvas><p class="result">Điểm: <span id="flappy-score">0</span></p><p><small>Bấm màn hình/click để nhảy 🐦</small></p><button onclick="restartFlappy()">🔄 Chơi lại</button><button onclick="backToMenu()">🔙 Về menu</button></div>
 
     <div id="result-modal" class="modal">
         <div class="rain" id="rain-effect"></div>
@@ -173,7 +111,6 @@
         </div>
     </div>
 
-    <!-- Đánh giá sao -->
     <div class="rating">
         <p>Bạn thấy bộ mini game này thế nào? Đánh giá giúp mình nha ♥️</p>
         <div class="stars">
@@ -185,31 +122,13 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div id="footer">
         <p><strong>MADE BY: NGUYỄN CHÍ DỰ</strong> ♥️</p>
         <button onclick="showForm('report')">🐞 REPORT BUGS</button>
         <button onclick="showForm('suggest')">➕ GỢI Ý THÊM TRÒ CHƠI</button>
-
-        <div id="report" class="form-section">
-            <p>Điền thông tin báo lỗi nhé:</p>
-            <input type="email" id="report-email" placeholder="Gmail của bạn">
-            <textarea id="report-msg" placeholder="Mô tả lỗi chi tiết..."></textarea>
-            <button onclick="sendReport()">📤 Gửi báo lỗi</button>
-        </div>
-
-        <div id="suggest" class="form-section">
-            <p>Gợi ý trò chơi mới cho mình nhé!</p>
-            <input type="email" id="suggest-email" placeholder="Gmail của bạn">
-            <textarea id="suggest-msg" placeholder="Bạn muốn thêm trò chơi gì? ♥️"></textarea>
-            <button onclick="sendSuggest()">📤 Gửi gợi ý</button>
-        </div>
-
-        <div class="success-msg" id="success-msg">
-            ĐƠN CỦA BẠN ĐÃ ĐƯỢC GỬI THÀNH CÔNG! <br>
-            VUI LÒNG ĐỢI TRONG 24H HOẶC HƠN NẾU OWNER BẬN ♥️
-        </div>
-
+        <div id="report" class="form-section"><p>Điền thông tin báo lỗi nhé:</p><input type="email" id="report-email" placeholder="Gmail của bạn"><textarea id="report-msg" placeholder="Mô tả lỗi chi tiết..."></textarea><button onclick="sendReport()">📤 Gửi báo lỗi</button></div>
+        <div id="suggest" class="form-section"><p>Gợi ý trò chơi mới cho mình nhé!</p><input type="email" id="suggest-email" placeholder="Gmail của bạn"><textarea id="suggest-msg" placeholder="Bạn muốn thêm trò chơi gì? ♥️"></textarea><button onclick="sendSuggest()">📤 Gửi gợi ý</button></div>
+        <div class="success-msg" id="success-msg">ĐƠN CỦA BẠN ĐÃ ĐƯỢC GỬI THÀNH CÔNG! <br>VUI LÒNG ĐỢI TRONG 24H HOẶC HƠN NẾU OWNER BẬN ♥️</div>
         <p>Gmail hỗ trợ: <strong>Herogoodboymc2024@gmail.com</strong></p>
     </div>
 
@@ -266,96 +185,91 @@
 
         function backToMenu(){document.querySelectorAll('.game-area').forEach(a=>a.classList.remove('active'));}
 
-        // Các game cũ giữ nguyên
+        // Oẳn Tù Tì
+        const rpsChoices=['✊','✋','✌️'];
+        function playRPS(c){
+            const comp=rpsChoices[Math.floor(Math.random()*3)];
+            if(c===comp){
+                document.getElementById('rps-result').innerHTML=`<strong>Bạn:</strong> ${c}<br><strong>Máy:</strong> ${comp}<br><br>Hòa! 🤝`;
+            }else if((c==='✊'&&comp==='✌️')||(c==='✋'&&comp==='✊')||(c==='✌️'&&comp==='✋')){
+                showResultModal('win','THẮNG!!!','Giỏi quá ♥️','🏆✨');
+            }else{
+                showResultModal('lose','Thua rồi...','Cố lên nha 💪','😢');
+            }
+        }
+        function restartRPS(){document.getElementById('rps-result').innerHTML='';}
 
-        // Flappy Bird - SỬA LẠI DỄ HƠN, HITBOX NHỎ HƠN, CHIM NHỎ HƠN
-        let birdX=80,birdY=300,birdSize=30,birdVelocity=0,gravity=0.4,jumpStrength=-9,scoreFlappy=0,pipes=[],flappyCanvas,flappyCtx,flappyInterval;
-        const MAX_SCORE=1000;
-        function initFlappy(){
-            flappyCanvas=document.getElementById('flappy-canvas');flappyCtx=flappyCanvas.getContext('2d');
-            birdY=300;birdVelocity=0;scoreFlappy=0;document.getElementById('flappy-score').innerText=scoreFlappy;
-            pipes=[];spawnPipe();
-            if(flappyInterval)clearInterval(flappyInterval);
-            flappyInterval=setInterval(flappyLoop,20);
-            flappyCanvas.onclick=jumpFlappy;
-            flappyCanvas.ontouchstart=e=>{e.preventDefault();jumpFlappy();};
+        // Cờ Caro
+        let ticBoard=Array(9).fill(null),currentPlayer='X';
+        function initTicBoard(){
+            const b=document.getElementById('board');b.innerHTML='';
+            ticBoard=Array(9).fill(null);currentPlayer='X';
+            for(let i=0;i<9;i++){
+                const cell=document.createElement('div');cell.classList.add('cell');
+                cell.onclick=()=>{makeMove(i);};
+                b.appendChild(cell);
+            }
+            document.getElementById('tic-result').innerText='Lượt đi: X';
         }
-        function jumpFlappy(){birdVelocity=jumpStrength;}
-        function spawnPipe(){
-            const gap=160,height=Math.floor(Math.random()*(flappyCanvas.height-gap-200))+100;
-            pipes.push({x:flappyCanvas.width,top:height,bottom:height+gap,scored:false});
+        function makeMove(i){
+            if(ticBoard[i]!==null||checkWinner(ticBoard))return;
+            ticBoard[i]=currentPlayer;
+            document.querySelectorAll('#board .cell')[i].innerText=currentPlayer;
+            if(checkWinner(ticBoard)){
+                showResultModal('win','CHÚC MỪNG!!!',`${currentPlayer} thắng rồi! 🎉`,'🏆');
+            }else if(ticBoard.every(c=>c!==null)){
+                showResultModal('lose','HÒA NHAU!','Vui là chính 😄','🤝');
+            }else{
+                currentPlayer=currentPlayer==='X'?'O':'X';
+                document.getElementById('tic-result').innerText='Lượt đi: '+currentPlayer;
+            }
         }
-        function flappyLoop(){
-            birdVelocity+=gravity;birdY+=birdVelocity;
-            if(birdY<0||birdY+birdSize>flappyCanvas.height){gameOverFlappy();return;}
-            pipes.forEach(p=>p.x-=2.5);
-            if(pipes[0].x<-60)pipes.shift();
-            if(pipes.length<5&&pipes[pipes.length-1].x<flappyCanvas.width-200)spawnPipe();
-            pipes.forEach(p=>{
-                // Hitbox nhỏ hơn: chim chỉ tính từ 8 đến birdSize-8
-                const birdLeft=birdX+8,birdRight=birdX+birdSize-8,birdTop=birdY+8,birdBottom=birdY+birdSize-8;
-                if(p.x<birdRight&&p.x+50>birdLeft){
-                    if(birdTop<p.top||birdBottom>p.bottom){gameOverFlappy();}
-                }
-                if(!p.scored && p.x+50<birdX){
-                    p.scored=true;
-                    scoreFlappy++;
-                    document.getElementById('flappy-score').innerText=scoreFlappy;
-                    if(scoreFlappy===MAX_SCORE){
-                        clearInterval(flappyInterval);
-                        showResultModal('win','CHÚC MỪNG THẮNG CUỘC!!! 🎉','Bạn đã vượt qua 1000 cột! Siêu đỉnh luôn ♥️','🏆✨🎊');
-                    }
-                }
-            });
-            drawFlappy();
+        function checkWinner(b){
+            const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return w.some(com=>b[com[0]]&&b[com[0]]===b[com[1]]&&b[com[1]]===b[com[2]]);
         }
-        function drawFlappy(){
-            flappyCtx.clearRect(0,0,flappyCanvas.width,flappyCanvas.height);
-            flappyCtx.fillStyle='#228B22';
-            pipes.forEach(p=>{
-                flappyCtx.fillRect(p.x,0,50,p.top);
-                flappyCtx.fillRect(p.x,p.bottom,50,flappyCanvas.height-p.bottom);
-            });
-            flappyCtx.fillStyle='#FFD700';
-            flappyCtx.fillRect(birdX,birdY,birdSize,birdSize);
-        }
-        function gameOverFlappy(){
-            clearInterval(flappyInterval);
-            showResultModal('lose','GAME OVER 😭','💔🕊️\nĐiểm: '+scoreFlappy + '\n😢','💔🕊️😢');
-        }
-        function restartFlappy(){clearInterval(flappyInterval);initFlappy();}
+        function restartTic(){initTicBoard();}
 
-        // Report & Suggest
-        function showForm(t){
-            document.getElementById('report').style.display='none';
-            document.getElementById('suggest').style.display='none';
-            document.getElementById('success-msg').style.display='none';
-            document.getElementById(t).style.display='block';
+        // Bầu Cua
+        const bc=['🦌','🍉','🐔','🦀','🦐','🐟'];
+        function playBauCua(c){
+            const d1=bc[Math.floor(Math.random()*6)],d2=bc[Math.floor(Math.random()*6)],d3=bc[Math.floor(Math.random()*6)];
+            const count=[d1,d2,d3].filter(x=>x===c).length;
+            document.getElementById('bau-cua-result').innerHTML=`<strong>Bạn chọn:</strong> ${c}<br><strong>Kết quả:</strong> ${d1} ${d2} ${d3}<br><br>`;
+            if(count>0){
+                showResultModal('win','THẮNG RỒI!!!',`Trúng ${count} con! ♥️`,'💰');
+            }else{
+                showResultModal('lose','Thua rồi...','Lần sau trúng lớn nha!','😭');
+            }
         }
-        function sendReport(){
-            const e=document.getElementById('report-email').value.trim(),m=document.getElementById('report-msg').value.trim();
-            if(!e||!m){alert('Điền đầy đủ nhé!');return;}
-            window.location.href=`mailto:Herogoodboymc2024@gmail.com?subject=[BÁO LỖI] Từ: ${e}&body=Gmail: ${e}\n\nLỗi: ${m}\n\n(Cảm ơn bạn ♥️)`;
-            showSuccess();
-        }
-        function sendSuggest(){
-            const e=document.getElementById('suggest-email').value.trim(),m=document.getElementById('suggest-msg').value.trim();
-            if(!e||!m){alert('Điền đầy đủ nhé!');return;}
-            window.location.href=`mailto:Herogoodboymc2024@gmail.com?subject=[GỢI Ý] Từ: ${e}&body=Gmail: ${e}\n\nGợi ý: ${m}\n\n(Cảm ơn bạn ♥️)`;
-            showSuccess();
-        }
-        function showSuccess(){
-            document.getElementById('report').style.display='none';
-            document.getElementById('suggest').style.display='none';
-            document.getElementById('success-msg').style.display='block';
-        }
+        function restartBauCua(){document.getElementById('bau-cua-result').innerHTML='';}
 
-        // Đánh giá sao
-        function rateGame(s){
-            document.querySelectorAll('.star').forEach((st,i)=>{st.classList.toggle('selected',i<s);});
-            window.location.href=`mailto:Herogoodboymc2024@gmail.com?subject=[ĐÁNH GIÁ] ${s} sao&body=Có người chơi đánh giá ${s}/5 sao! ♥️`;
-            showResultModal('win','CẢM ƠN BẠN NHIỀU!!! 🌟',`Bạn đã đánh giá ${s} sao ♥️\nMình rất vui!`,'😍✨🎉');
+        // Đuổi Hình Bắt Chữ
+        const wordHints={"VIETNAM":"Quốc gia hình chữ S ❤️","BANBE":"Bạn thân mãi mãi 👭","YEUTHUONG":"Cảm xúc đẹp nhất 💕","HANHPHUC":"Điều mọi người mong muốn 😊","CHILL":"Thư giãn thoải mái 🛋️","GAME":"Thứ đang chơi 🎮","VUIVE":"Cảm giác vui vẻ 😄","MINIGAME":"Bộ game nhỏ này","XINCHAO":"Lời chào 👋","CAMON":"Lời cảm ơn 🙏","NGUYENCHIDU":"Tên người tạo game 😎"};
+        let currentWord='',displayedWord=[],wrongLetters=[],gameOver=false;
+        function initHangman(){
+            const keys=Object.keys(wordHints);
+            currentWord=keys[Math.floor(Math.random()*keys.length)];
+            displayedWord=Array(currentWord.length).fill('_');
+            wrongLetters=[];gameOver=false;
+            document.getElementById('hangman-hint').innerText=wordHints[currentWord];
+            document.getElementById('hangman-word').innerText=displayedWord.join(' ');
+            document.getElementById('wrong-letters').innerText='';
+            const l=document.getElementById('hangman-letters');l.innerHTML='';
+            for(let i=65;i<=90;i++){
+                const letter=String.fromCharCode(i);
+                const btn=document.createElement('button');
+                btn.innerText=letter;
+                btn.onclick=(function(l){return function(){guessLetter(l,btn);};})(letter);
+                l.appendChild(btn);
+            }
         }
-    </script>
-</body>
-</html>
+        function guessLetter(l,btn){
+            if(gameOver||btn.disabled)return;
+            btn.disabled=true;
+            if(currentWord.includes(l)){
+                for(let i=0;i<currentWord.length;i++)if(currentWord[i]===l)displayedWord[i]=l;
+                document.getElementById('hangman-word').innerText=displayedWord.join(' ');
+                if(!displayedWord.includes('_')){
+                    gameOver=true;
+                    showResultModal('win','CHÚ
