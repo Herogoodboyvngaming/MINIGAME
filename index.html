@@ -266,15 +266,154 @@
 
         function backToMenu(){document.querySelectorAll('.game-area').forEach(a=>a.classList.remove('active'));}
 
-        // Các game cũ giữ nguyên
+        // Oẳn Tù Tì
+        const rpsChoices=['✊','✋','✌️'];
+        function playRPS(c){
+            const comp=rpsChoices[Math.floor(Math.random()*3)];
+            if(c===comp){
+                document.getElementById('rps-result').innerHTML=`<strong>Bạn:</strong> ${c}<br><strong>Máy:</strong> ${comp}<br><br>Hòa! 🤝`;
+            }else if((c==='✊'&&comp==='✌️')||(c==='✋'&&comp==='✊')||(c==='✌️'&&comp==='✋')){
+                showResultModal('win','THẮNG!!!','Giỏi quá ♥️','🏆✨');
+            }else{
+                showResultModal('lose','Thua rồi...','Cố lên nha 💪','😢');
+            }
+        }
+        function restartRPS(){document.getElementById('rps-result').innerHTML='';}
 
-        // Flappy Bird - SỬA LẠI HOÀN HẢO THEO YÊU CẦU + ẢNH
+        // Cờ Caro
+        let ticBoard=Array(9).fill(null),currentPlayer='X';
+        function initTicBoard(){
+            const b=document.getElementById('board');b.innerHTML='';
+            ticBoard=Array(9).fill(null);currentPlayer='X';
+            for(let i=0;i<9;i++){
+                const cell=document.createElement('div');cell.classList.add('cell');
+                cell.onclick=()=>{makeMove(i);};
+                b.appendChild(cell);
+            }
+            document.getElementById('tic-result').innerText='Lượt đi: X';
+        }
+        function makeMove(i){
+            if(ticBoard[i]!==null||checkWinner(ticBoard))return;
+            ticBoard[i]=currentPlayer;
+            document.querySelectorAll('#board .cell')[i].innerText=currentPlayer;
+            if(checkWinner(ticBoard)){
+                showResultModal('win','CHÚC MỪNG!!!',`${currentPlayer} thắng rồi! 🎉`,'🏆');
+            }else if(ticBoard.every(c=>c!==null)){
+                showResultModal('lose','HÒA NHAU!','Vui là chính 😄','🤝');
+            }else{
+                currentPlayer=currentPlayer==='X'?'O':'X';
+                document.getElementById('tic-result').innerText='Lượt đi: '+currentPlayer;
+            }
+        }
+        function checkWinner(b){
+            const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return w.some(com=>b[com[0]]&&b[com[0]]===b[com[1]]&&b[com[1]]===b[com[2]]);
+        }
+        function restartTic(){initTicBoard();}
+
+        // Bầu Cua
+        const bc=['🦌','🍉','🐔','🦀','🦐','🐟'];
+        function playBauCua(c){
+            const d1=bc[Math.floor(Math.random()*6)],d2=bc[Math.floor(Math.random()*6)],d3=bc[Math.floor(Math.random()*6)];
+            const count=[d1,d2,d3].filter(x=>x===c).length;
+            document.getElementById('bau-cua-result').innerHTML=`<strong>Bạn chọn:</strong> ${c}<br><strong>Kết quả:</strong> ${d1} ${d2} ${d3}<br><br>`;
+            if(count>0){
+                showResultModal('win','THẮNG RỒI!!!',`Trúng ${count} con! ♥️`,'💰');
+            }else{
+                showResultModal('lose','Thua rồi...','Lần sau trúng lớn nha!','😭');
+            }
+        }
+        function restartBauCua(){document.getElementById('bau-cua-result').innerHTML='';}
+
+        // Đuổi Hình Bắt Chữ
+        const wordHints={"VIETNAM":"Quốc gia hình chữ S ❤️","BANBE":"Bạn thân mãi mãi 👭","YEUTHUONG":"Cảm xúc đẹp nhất 💕","HANHPHUC":"Điều mọi người mong muốn 😊","CHILL":"Thư giãn thoải mái 🛋️","GAME":"Thứ đang chơi 🎮","VUIVE":"Cảm giác vui vẻ 😄","MINIGAME":"Bộ game nhỏ này","XINCHAO":"Lời chào 👋","CAMON":"Lời cảm ơn 🙏","NGUYENCHIDU":"Tên người tạo game 😎"};
+        let currentWord='',displayedWord=[],wrongLetters=[],gameOver=false;
+        function initHangman(){
+            const keys=Object.keys(wordHints);
+            currentWord=keys[Math.floor(Math.random()*keys.length)];
+            displayedWord=Array(currentWord.length).fill('_');
+            wrongLetters=[];gameOver=false;
+            document.getElementById('hangman-hint').innerText=wordHints[currentWord];
+            document.getElementById('hangman-word').innerText=displayedWord.join(' ');
+            document.getElementById('wrong-letters').innerText='';
+            const l=document.getElementById('hangman-letters');l.innerHTML='';
+            for(let i=65;i<=90;i++){
+                const letter=String.fromCharCode(i);
+                const btn=document.createElement('button');
+                btn.innerText=letter;
+                btn.onclick=(function(l){return function(){guessLetter(l,btn);};})(letter);
+                l.appendChild(btn);
+            }
+        }
+        function guessLetter(l,btn){
+            if(gameOver||btn.disabled)return;
+            btn.disabled=true;
+            if(currentWord.includes(l)){
+                for(let i=0;i<currentWord.length;i++)if(currentWord[i]===l)displayedWord[i]=l;
+                document.getElementById('hangman-word').innerText=displayedWord.join(' ');
+                if(!displayedWord.includes('_')){
+                    gameOver=true;
+                    showResultModal('win','CHÚC MỪNG!!!','Đoán đúng rồi! ♥️','🏆');
+                }
+            }else{
+                wrongLetters.push(l);
+                document.getElementById('wrong-letters').innerText=wrongLetters.join(' ');
+                if(wrongLetters.length>=6){
+                    gameOver=true;
+                    showResultModal('lose','Thua rồi...','Từ là: '+currentWord,'😭');
+                }
+            }
+        }
+        function restartHangman(){initHangman();}
+
+        // Rắn Săn Mồi
+        let snake=[],food={},dx=0,dy=0,score=0,canvas,ctx,gameInterval;
+        function initSnake(){
+            canvas=document.getElementById('snake-canvas');ctx=canvas.getContext('2d');
+            snake=[{x:200,y:200}];spawnFood();dx=0;dy=0;score=0;
+            document.getElementById('snake-score').innerText=score;
+            drawGame();
+            if(gameInterval)clearInterval(gameInterval);
+            gameInterval=setInterval(gameLoop,150);
+        }
+        function spawnFood(){
+            do{food={x:Math.floor(Math.random()*20)*20,y:Math.floor(Math.random()*20)*20};}while(snake.some(s=>s.x===food.x&&s.y===food.y));
+        }
+        function gameLoop(){
+            if(dx===0&&dy===0)return;
+            const head={x:snake[0].x+dx,y:snake[0].y+dy};
+            if(head.x<0||head.x>=400||head.y<0||head.y>=400||snake.some(s=>s.x===head.x&&s.y===head.y)){
+                clearInterval(gameInterval);
+                showResultModal('lose','GAME OVER!!!','Điểm: '+score,'💔🐍');
+                return;
+            }
+            snake.unshift(head);
+            if(head.x===food.x&&head.y===food.y){score++;document.getElementById('snake-score').innerText=score;spawnFood();}else{snake.pop();}
+            drawGame();
+        }
+        function drawGame(){
+            ctx.fillStyle='#ffffff';ctx.fillRect(0,0,400,400);
+            ctx.fillStyle='#ff6b81';snake.forEach(s=>ctx.fillRect(s.x+2,s.y+2,16,16));
+            ctx.fillStyle='#2ed573';ctx.fillRect(food.x+2,food.y+2,16,16);
+        }
+        function changeDir(nx,ny){if(dx===-nx&&dy===-ny)return;dx=nx;dy=ny;}
+        document.addEventListener('keydown',e=>{
+            if(!document.getElementById('snake').classList.contains('active'))return;
+            if(e.key==='ArrowUp'&&dy!==20)changeDir(0,-20);
+            if(e.key==='ArrowDown'&&dy!==-20)changeDir(0,20);
+            if(e.key==='ArrowLeft'&&dx!==20)changeDir(-20,0);
+            if(e.key==='ArrowRight'&&dx!==-20)changeDir(20,0);
+        });
+        function restartSnake(){clearInterval(gameInterval);initSnake();}
+
+        // Flappy Bird - SỬA LẠI HOÀN HẢO, + ĐIỂM ĐÚNG, NHIỀU CỘT, THẮNG 1000 CỘT
         let birdY=300,birdVelocity=0,gravity=0.5,jumpStrength=-10,scoreFlappy=0,pipes=[],flappyCanvas,flappyCtx,flappyInterval;
-        const MAX_PIPES = 1000; // 1000 cột thì thắng
+        const MAX_SCORE = 1000;
         function initFlappy(){
             flappyCanvas=document.getElementById('flappy-canvas');flappyCtx=flappyCanvas.getContext('2d');
             birdY=300;birdVelocity=0;scoreFlappy=0;document.getElementById('flappy-score').innerText=scoreFlappy;
-            pipes=[];spawnPipe();
+            pipes=[];
+            spawnPipe();
             if(flappyInterval)clearInterval(flappyInterval);
             flappyInterval=setInterval(flappyLoop,20);
             flappyCanvas.onclick=jumpFlappy;
@@ -283,25 +422,27 @@
         function jumpFlappy(){birdVelocity=jumpStrength;}
         function spawnPipe(){
             const gap=150,height=Math.floor(Math.random()*(flappyCanvas.height-gap-200))+100;
-            pipes.push({x:flappyCanvas.width,top:height,bottom:height+gap,passed:false});
+            pipes.push({x:flappyCanvas.width,top:height,bottom:height+gap,scored:false});
         }
         function flappyLoop(){
             birdVelocity+=gravity;birdY+=birdVelocity;
-            if(birdY>flappyCanvas.height-50||birdY<50){gameOverFlappy();return;}
+            if(birdY+50>flappyCanvas.height||birdY<0){gameOverFlappy();return;}
             pipes.forEach(p=>p.x-=3);
             if(pipes[0].x<-50)pipes.shift();
-            if(pipes.length<6&&pipes[pipes.length-1].x<flappyCanvas.width-200)spawnPipe(); // Thêm nhiều cột hơn, khó hơn
+            if(pipes.length<5&&pipes[pipes.length-1].x<flappyCanvas.width-180)spawnPipe(); // Nhiều cột hơn, khó hơn
             pipes.forEach(p=>{
+                // Va chạm
                 if(p.x<100&&p.x+50>50){
                     if(birdY<p.top||birdY+50>p.bottom){gameOverFlappy();}
                 }
-                if(!p.passed&&p.x+50<50){
-                    p.passed=true;
+                // + điểm khi chim vượt qua giữa cột
+                if(!p.scored && p.x+50<50){
+                    p.scored=true;
                     scoreFlappy++;
                     document.getElementById('flappy-score').innerText=scoreFlappy;
-                    if(scoreFlappy>=MAX_PIPES){
+                    if(scoreFlappy===MAX_SCORE){
                         clearInterval(flappyInterval);
-                        showResultModal('win','CHÚC MỪNG THẮNG!!! 🎉','Bạn đã vượt qua 1000 cột! Siêu giỏi luôn ♥️','🏆✨🎊');
+                        showResultModal('win','CHÚC MỪNG THẮNG CUỘC!!! 🎉','Bạn đã vượt qua 1000 cột! Siêu đỉnh luôn ♥️','🏆✨🎊');
                     }
                 }
             });
@@ -319,7 +460,7 @@
         }
         function gameOverFlappy(){
             clearInterval(flappyInterval);
-            showResultModal('lose','GAME OVER 😭','💔🕊️\nĐiểm: '+scoreFlappy,'💔🕊️😢');
+            showResultModal('lose','GAME OVER 😭','💔🕊️\nĐiểm: '+scoreFlappy + '\n😢','💔🕊️😢');
         }
         function restartFlappy(){clearInterval(flappyInterval);initFlappy();}
 
