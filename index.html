@@ -272,4 +272,146 @@
                 document.getElementById('hangman-word').innerText=displayedWord.join(' ');
                 if(!displayedWord.includes('_')){
                     gameOver=true;
-                    showResultModal('win','CHÚ
+                    showResultModal('win','CHÚC MỪNG!!!','Đoán đúng rồi! ♥️','🏆');
+                }
+            }else{
+                wrongLetters.push(l);
+                document.getElementById('wrong-letters').innerText=wrongLetters.join(' ');
+                if(wrongLetters.length>=6){
+                    gameOver=true;
+                    showResultModal('lose','Thua rồi...','Từ là: '+currentWord,'😭');
+                }
+            }
+        }
+        function restartHangman(){initHangman();}
+
+        // Rắn Săn Mồi
+        let snake=[],food={},dx=0,dy=0,score=0,canvas,ctx,gameInterval;
+        function initSnake(){
+            canvas=document.getElementById('snake-canvas');ctx=canvas.getContext('2d');
+            snake=[{x:200,y:200}];spawnFood();dx=0;dy=0;score=0;
+            document.getElementById('snake-score').innerText=score;
+            drawGame();
+            if(gameInterval)clearInterval(gameInterval);
+            gameInterval=setInterval(gameLoop,150);
+        }
+        function spawnFood(){
+            do{food={x:Math.floor(Math.random()*20)*20,y:Math.floor(Math.random()*20)*20};}while(snake.some(s=>s.x===food.x&&s.y===food.y));
+        }
+        function gameLoop(){
+            if(dx===0&&dy===0)return;
+            const head={x:snake[0].x+dx,y:snake[0].y+dy};
+            if(head.x<0||head.x>=400||head.y<0||head.y>=400||snake.some(s=>s.x===head.x&&s.y===head.y)){
+                clearInterval(gameInterval);
+                showResultModal('lose','GAME OVER!!!','Điểm: '+score,'💔🐍');
+                return;
+            }
+            snake.unshift(head);
+            if(head.x===food.x&&head.y===food.y){score++;document.getElementById('snake-score').innerText=score;spawnFood();}else{snake.pop();}
+            drawGame();
+        }
+        function drawGame(){
+            ctx.fillStyle='#ffffff';ctx.fillRect(0,0,400,400);
+            ctx.fillStyle='#ff6b81';snake.forEach(s=>ctx.fillRect(s.x+2,s.y+2,16,16));
+            ctx.fillStyle='#2ed573';ctx.fillRect(food.x+2,food.y+2,16,16);
+        }
+        function changeDir(nx,ny){if(dx===-nx&&dy===-ny)return;dx=nx;dy=ny;}
+        document.addEventListener('keydown',e=>{
+            if(!document.getElementById('snake').classList.contains('active'))return;
+            if(e.key==='ArrowUp'&&dy!==20)changeDir(0,-20);
+            if(e.key==='ArrowDown'&&dy!==-20)changeDir(0,20);
+            if(e.key==='ArrowLeft'&&dx!==20)changeDir(-20,0);
+            if(e.key==='ArrowRight'&&dx!==-20)changeDir(20,0);
+        });
+        function restartSnake(){clearInterval(gameInterval);initSnake();}
+
+        // Flappy Bird - SỬA LẠI DỄ HƠN, CHIM NHỎ, HITBOX NHỎ, + ĐIỂM ĐÚNG
+        let birdX=80,birdY=300,birdSize=26,birdVelocity=0,gravity=0.35,jumpStrength=-8.5,scoreFlappy=0,pipes=[],flappyCanvas,flappyCtx,flappyInterval;
+        const MAX_SCORE=1000;
+        function initFlappy(){
+            flappyCanvas=document.getElementById('flappy-canvas');flappyCtx=flappyCanvas.getContext('2d');
+            birdY=300;birdVelocity=0;scoreFlappy=0;document.getElementById('flappy-score').innerText=scoreFlappy;
+            pipes=[];spawnPipe();
+            if(flappyInterval)clearInterval(flappyInterval);
+            flappyInterval=setInterval(flappyLoop,20);
+            flappyCanvas.onclick=jumpFlappy;
+            flappyCanvas.ontouchstart=e=>{e.preventDefault();jumpFlappy();};
+        }
+        function jumpFlappy(){birdVelocity=jumpStrength;}
+        function spawnPipe(){
+            const gap=170,height=Math.floor(Math.random()*(flappyCanvas.height-gap-220))+110;
+            pipes.push({x:flappyCanvas.width,top:height,bottom:height+gap,scored:false});
+        }
+        function flappyLoop(){
+            birdVelocity+=gravity;birdY+=birdVelocity;
+            if(birdY<0||birdY+birdSize>flappyCanvas.height){gameOverFlappy();return;}
+            pipes.forEach(p=>p.x-=2);
+            if(pipes[0].x<-60)pipes.shift();
+            if(pipes.length<5&&pipes[pipes.length-1].x<flappyCanvas.width-220)spawnPipe();
+            pipes.forEach(p=>{
+                const birdLeft=birdX+10,birdRight=birdX+birdSize-10,birdTop=birdY+10,birdBottom=birdY+birdSize-10;
+                if(p.x<birdRight&&p.x+50>birdLeft){
+                    if(birdTop<p.top||birdBottom>p.bottom){gameOverFlappy();}
+                }
+                if(!p.scored && p.x+50<birdX){
+                    p.scored=true;
+                    scoreFlappy++;
+                    document.getElementById('flappy-score').innerText=scoreFlappy;
+                    if(scoreFlappy===MAX_SCORE){
+                        clearInterval(flappyInterval);
+                        showResultModal('win','CHÚC MỪNG THẮNG CUỘC!!! 🎉','Bạn đã vượt qua 1000 cột! Siêu đỉnh luôn ♥️','🏆✨🎊');
+                    }
+                }
+            });
+            drawFlappy();
+        }
+        function drawFlappy(){
+            flappyCtx.clearRect(0,0,flappyCanvas.width,flappyCanvas.height);
+            flappyCtx.fillStyle='#228B22';
+            pipes.forEach(p=>{
+                flappyCtx.fillRect(p.x,0,50,p.top);
+                flappyCtx.fillRect(p.x,p.bottom,50,flappyCanvas.height-p.bottom);
+            });
+            flappyCtx.fillStyle='#FFD700';
+            flappyCtx.fillRect(birdX,birdY,birdSize,birdSize);
+        }
+        function gameOverFlappy(){
+            clearInterval(flappyInterval);
+            showResultModal('lose','GAME OVER 😭','💔🕊️\nĐiểm: '+scoreFlappy + '\n😢','💔🕊️😢');
+        }
+        function restartFlappy(){clearInterval(flappyInterval);initFlappy();}
+
+        // Report & Suggest
+        function showForm(t){
+            document.getElementById('report').style.display='none';
+            document.getElementById('suggest').style.display='none';
+            document.getElementById('success-msg').style.display='none';
+            document.getElementById(t).style.display='block';
+        }
+        function sendReport(){
+            const e=document.getElementById('report-email').value.trim(),m=document.getElementById('report-msg').value.trim();
+            if(!e||!m){alert('Điền đầy đủ nhé!');return;}
+            window.location.href=`mailto:Herogoodboymc2024@gmail.com?subject=[BÁO LỖI] Từ: ${e}&body=Gmail: ${e}\n\nLỗi: ${m}\n\n(Cảm ơn bạn ♥️)`;
+            showSuccess();
+        }
+        function sendSuggest(){
+            const e=document.getElementById('suggest-email').value.trim(),m=document.getElementById('suggest-msg').value.trim();
+            if(!e||!m){alert('Điền đầy đủ nhé!');return;}
+            window.location.href=`mailto:Herogoodboymc2024@gmail.com?subject=[GỢI Ý] Từ: ${e}&body=Gmail: ${e}\n\nGợi ý: ${m}\n\n(Cảm ơn bạn ♥️)`;
+            showSuccess();
+        }
+        function showSuccess(){
+            document.getElementById('report').style.display='none';
+            document.getElementById('suggest').style.display='none';
+            document.getElementById('success-msg').style.display='block';
+        }
+
+        // Đánh giá sao
+        function rateGame(s){
+            document.querySelectorAll('.star').forEach((st,i)=>{st.classList.toggle('selected',i<s);});
+            window.location.href=`mailto:Herogoodboymc2024@gmail.com?subject=[ĐÁNH GIÁ] ${s} sao&body=Có người chơi đánh giá ${s}/5 sao! ♥️`;
+            showResultModal('win','CẢM ƠN BẠN NHIỀU!!! 🌟',`Bạn đã đánh giá ${s} sao ♥️\nMình rất vui!`,'😍✨🎉');
+        }
+    </script>
+</body>
+</html>
