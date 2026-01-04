@@ -85,7 +85,7 @@
             CÁC GAME MỚI SẼ ĐƯỢC CẬP NHẬT Ở TRANG NÀY NẾU CÓ ♥️
         </h3>
         <div class="menu">
-            <button class="game-btn" onclick="showGame('flappy')">🕊️ Flappy Bird (MỚI NHẤT!!!)</button>
+            <button class="game-btn" onclick="showGame('flappy')">🕊️ Flappy Bird</button>
             <button class="game-btn" onclick="showGame('dino')">🦖 Dinosaur Game (MỚI!!!)</button>
         </div>
     </div>
@@ -281,7 +281,7 @@
                 document.getElementById('modal-title').classList.add('lose');
                 document.getElementById('modal-title').classList.remove('win');
                 const r = document.getElementById('rain-effect');
-                for(let i = 0; i = 80; i++){
+                for(let i = 0; i < 80; i++){
                     const d = document.createElement('div');
                     d.classList.add('rain-drop');
                     d.style.left = Math.random()*100 + '%';
