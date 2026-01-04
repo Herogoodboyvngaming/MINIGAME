@@ -538,14 +538,15 @@
         }
         function restartFlappy(){clearInterval(flappyInterval);initFlappy();}
 
-        // DINOSAUR GAME MỚI
+        // DINOSAUR GAME - ĐÃ SỬA LỖI, SPEED = 5, KẾT THÚC ĐẶC BIỆT TẠI 9999 ĐIỂM
         let dinoX = 50, dinoY = 150, dinoVelocity = 0, gravity = 0.6, jumpStrength = -12, isJumping = false;
         let obstacles = [], clouds = [], scoreDino = 0, gameSpeed = 5, dinoCanvas, dinoCtx, dinoInterval;
         let gameOverDino = false, endingShown = false;
         const WIN_SCORE_DINO = 9999;
 
         function initDino(){
-            dinoCanvas = document.getElementById('dino-canvas'); dinoCtx = dinoCanvas.getContext('2d');
+            dinoCanvas = document.getElementById('dino-canvas');
+            dinoCtx = dinoCanvas.getContext('2d');
             dinoX = 50; dinoY = 150; dinoVelocity = 0; isJumping = false;
             obstacles = []; clouds = []; scoreDino = 0; gameSpeed = 5; gameOverDino = false; endingShown = false;
             document.getElementById('dino-score').innerText = scoreDino;
