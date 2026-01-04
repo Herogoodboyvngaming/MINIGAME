@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MINI GAME ĐƯỢC TẠO BỞI NGUYỄN CHÍ DỰ</title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <style>
         body{font-family:'Roboto',sans-serif;text-align:center;background:linear-gradient(135deg,#ff9a9e,#fad0c4);margin:0;padding:20px;min-height:100vh;color:#333;background-attachment:fixed}
         h1{font-family:'Comic Neue',cursive;font-size:3em;color:#ff4757;text-shadow:3px 3px 0 #fff;margin:20px 0 0}
@@ -219,7 +220,14 @@
     </div>
 
     <script>
-        // ĐỒNG HỒ VIỆT NAM REALTIME
+        let jsConfetti = null;
+        window.addEventListener('load', () => {
+            if (typeof JSConfetti !== 'undefined') {
+                jsConfetti = new JSConfetti();
+            }
+        });
+
+        // ĐỒNG HỒ VIỆT NAM
         function updateDateTime(){
             const now = new Date();
             const options = { 
@@ -249,6 +257,10 @@
             if(t === 'win'){
                 document.getElementById('modal-title').classList.add('win');
                 document.getElementById('modal-title').classList.remove('lose');
+                if (jsConfetti) {
+                    jsConfetti.addConfetti({emojis:['🎉','🎊','✨','🏆','🔥','💥'],confettiNumber:100});
+                    jsConfetti.addConfetti({confettiColors:['#ff6b81','#ffa502','#2ed573','#ff4757','#e84393'],confettiRadius:6,confettiNumber:150});
+                }
             }else{
                 document.getElementById('modal-title').classList.add('lose');
                 document.getElementById('modal-title').classList.remove('win');
@@ -276,6 +288,9 @@
             if(t === 'win'){
                 document.getElementById('modal-title').classList.add('win');
                 document.getElementById('modal-title').classList.remove('lose');
+                if (jsConfetti) {
+                    jsConfetti.addConfetti({emojis:['🎉','🎊','✨','🏆','🔥','💥'],confettiNumber:100});
+                }
             }else{
                 document.getElementById('modal-title').classList.add('lose');
                 document.getElementById('modal-title').classList.remove('win');
