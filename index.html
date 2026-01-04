@@ -249,8 +249,8 @@
                 minute: '2-digit', 
                 second: '2-digit' 
             };
-            const formatter = new Intl.DateTimeFormat('vi-VN', options);
-            document.getElementById('datetime').innerHTML = `🕒 Thời gian Việt Nam: ${formatter.format(now)}`;
+            const formatted = new Intl.DateTimeFormat('vi-VN', options).format(now);
+            document.getElementById('datetime').innerText = `🕒 Thời gian Việt Nam: ${formatted}`;
         }
         updateDateTime();
         setInterval(updateDateTime, 1000);
