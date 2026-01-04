@@ -442,34 +442,34 @@
         function restartHangman(){initHangman();}
 
         // Rắn Săn Mồi
-        let snake = [], food = {}, dx = 0, dy = 0, score = 0, canvas, ctx, gameInterval;
+        let snake = [], food = {}, dx = 0, dy = 0, score = 0, snakeCanvas, snakeCtx, snakeInterval;
         function initSnake(){
-            canvas = document.getElementById('snake-canvas'); ctx = canvas.getContext('2d');
+            snakeCanvas = document.getElementById('snake-canvas'); snakeCtx = snakeCanvas.getContext('2d');
             snake = [{x:200,y:200}]; spawnFood(); dx = 0; dy = 0; score = 0;
             document.getElementById('snake-score').innerText = score;
-            drawGame();
-            if(gameInterval) clearInterval(gameInterval);
-            gameInterval = setInterval(gameLoop,150);
+            drawSnakeGame();
+            if(snakeInterval) clearInterval(snakeInterval);
+            snakeInterval = setInterval(snakeLoop,150);
         }
         function spawnFood(){
             do{food = {x:Math.floor(Math.random()*20)*20,y:Math.floor(Math.random()*20)*20};}while(snake.some(s=>s.x===food.x&&s.y===food.y));
         }
-        function gameLoop(){
+        function snakeLoop(){
             if(dx===0&&dy===0) return;
             const head = {x:snake[0].x+dx,y:snake[0].y+dy};
             if(head.x<0||head.x>=400||head.y<0||head.y>=400||snake.some(s=>s.x===head.x&&s.y===head.y)){
-                clearInterval(gameInterval);
+                clearInterval(snakeInterval);
                 showResultModal('lose','GAME OVER!!!','Điểm: '+score,'💔🐍');
                 return;
             }
             snake.unshift(head);
             if(head.x===food.x&&head.y===food.y){score++;document.getElementById('snake-score').innerText=score;spawnFood();}else{snake.pop();}
-            drawGame();
+            drawSnakeGame();
         }
-        function drawGame(){
-            ctx.fillStyle='#ffffff';ctx.fillRect(0,0,400,400);
-            ctx.fillStyle='#ff6b81';snake.forEach(s=>ctx.fillRect(s.x+2,s.y+2,16,16));
-            ctx.fillStyle='#2ed573';ctx.fillRect(food.x+2,food.y+2,16,16);
+        function drawSnakeGame(){
+            snakeCtx.fillStyle='#ffffff';snakeCtx.fillRect(0,0,400,400);
+            snakeCtx.fillStyle='#ff6b81';snake.forEach(s=>snakeCtx.fillRect(s.x+2,s.y+2,16,16));
+            snakeCtx.fillStyle='#2ed573';snakeCtx.fillRect(food.x+2,food.y+2,16,16);
         }
         function changeDir(nx,ny){if(dx===-nx&&dy===-ny)return;dx=nx;dy=ny;}
         document.addEventListener('keydown',e=>{
@@ -479,11 +479,11 @@
             if(e.key==='ArrowLeft'&&dx!==20)changeDir(-20,0);
             if(e.key==='ArrowRight'&&dx!==-20)changeDir(20,0);
         });
-        function restartSnake(){clearInterval(gameInterval);initSnake();}
+        function restartSnake(){clearInterval(snakeInterval);initSnake();}
 
         // Flappy Bird
         let birdX=80,birdY=300,birdSize=24,birdVelocity=0,gravity=0.35,jumpStrength=-8,scoreFlappy=0,pipes=[],flappyCanvas,flappyCtx,flappyInterval;
-        const WIN_SCORE = 100;
+        const WIN_SCORE_FLAPPY = 100;
         function initFlappy(){
             flappyCanvas=document.getElementById('flappy-canvas');flappyCtx=flappyCanvas.getContext('2d');
             birdY=300;birdVelocity=0;scoreFlappy=0;document.getElementById('flappy-score').innerText=scoreFlappy;
@@ -513,7 +513,7 @@
                     p.scored=true;
                     scoreFlappy++;
                     document.getElementById('flappy-score').innerText=scoreFlappy;
-                    if(scoreFlappy===WIN_SCORE){
+                    if(scoreFlappy===WIN_SCORE_FLAPPY){
                         clearInterval(flappyInterval);
                         showResultModal('win','CHÚC MỪNG THẮNG CUỘC!!! 🎉','Bạn đã đạt đủ 100 điểm! Siêu giỏi luôn ♥️','🏆✨🎊');
                     }
@@ -621,7 +621,7 @@
             if(scoreDino % 500 === 0) gameSpeed += 0.5;
             if(scoreDino % 100 === 0 && Math.random() < 0.03) spawnObstacle();
 
-            // Kết thúc đặc biệt tại 9999 điểm
+            // Kết thúc đặc biệt
             if(scoreDino >= WIN_SCORE_DINO && !endingShown){
                 endingShown = true;
                 clearInterval(dinoInterval);
