@@ -12,6 +12,7 @@
         h2{font-size:1.8em;color:#e84393;margin:10px 0 40px}
         .heart{color:#ff6b6b;animation:pulse 1.5s infinite}
         @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+        .datetime{font-size:1.6em;color:#fff;background:rgba(0,0,0,0.4);padding:10px 30px;border-radius:50px;margin:20px auto;display:inline-block;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
         .page-nav{margin:30px 0}
         .page-btn{padding:15px 40px;font-size:1.6em;margin:0 10px;border:none;border-radius:50px;background:#ff6b81;color:#fff;cursor:pointer;box-shadow:0 5px 15px rgba(255,107,129,0.4);transition:all .3s}
         .page-btn:hover{background:#ff4757}
@@ -62,6 +63,8 @@
     </style>
 </head>
 <body>
+    <div class="datetime" id="datetime">Đang tải thời gian...</div>
+
     <h1>MINI GAME ĐƯỢC TẠO BỞI NGUYỄN CHÍ DỰ</h1>
     <h2>CHÚC CÁC BẠN CHƠI VUI VẺ, CÓ LỖI BẤM VÀO NÚT REPORT BUGS <span class="heart">♥️</span></h2>
 
@@ -232,6 +235,25 @@
         const jsConfetti = new JSConfetti();
 
         let isRatingModal = false;
+
+        // HIỂN THỊ NGÀY GIỜ VIỆT NAM REALTIME
+        function updateDateTime(){
+            const now = new Date();
+            const options = { 
+                timeZone: 'Asia/Ho_Chi_Minh',
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            };
+            const formatter = new Intl.DateTimeFormat('vi-VN', options);
+            document.getElementById('datetime').innerHTML = `🕒 Thời gian Việt Nam: ${formatter.format(now)}`;
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
 
         function showResultModal(t,title,msg,emoji){
             isRatingModal = false;
