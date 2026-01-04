@@ -164,7 +164,6 @@
         <button onclick="backToMenu()">🔙 Về menu</button>
     </div>
 
-    <!-- GAME MỚI: DINOSAUR -->
     <div id="dino" class="game-area">
         <h3>🦖 Dinosaur Game</h3>
         <canvas id="dino-canvas" width="600" height="200"></canvas>
@@ -538,7 +537,7 @@
         }
         function restartFlappy(){clearInterval(flappyInterval);initFlappy();}
 
-        // DINOSAUR GAME - ĐÃ SỬA LỖI, SPEED = 5, KẾT THÚC ĐẶC BIỆT TẠI 9999 ĐIỂM
+        // DINOSAUR GAME
         let dinoX = 50, dinoY = 150, dinoVelocity = 0, gravity = 0.6, jumpStrength = -12, isJumping = false;
         let obstacles = [], clouds = [], scoreDino = 0, gameSpeed = 5, dinoCanvas, dinoCtx, dinoInterval;
         let gameOverDino = false, endingShown = false;
