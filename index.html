@@ -85,7 +85,7 @@
             CÁC GAME MỚI SẼ ĐƯỢC CẬP NHẬT Ở TRANG NÀY NẾU CÓ ♥️
         </h3>
         <div class="menu">
-            <button class="game-btn" onclick="showGame('flappy')">🕊️ Flappy Bird (MỚI NHẤT!!!)</button>
+            <button class="game-btn" onclick="showGame('flappy')">🕊️ Flappy Bird</button>
             <button class="game-btn" onclick="showGame('dino')">🦖 Dinosaur Game (MỚI!!!)</button>
         </div>
     </div>
@@ -537,7 +537,7 @@
         }
         function restartFlappy(){clearInterval(flappyInterval);initFlappy();}
 
-        // DINOSAUR GAME
+        // Dinosaur Game
         let dinoX = 50, dinoY = 150, dinoVelocity = 0, gravity = 0.6, jumpStrength = -12, isJumping = false;
         let obstacles = [], clouds = [], scoreDino = 0, gameSpeed = 5, dinoCanvas, dinoCtx, dinoInterval;
         let gameOverDino = false, endingShown = false;
