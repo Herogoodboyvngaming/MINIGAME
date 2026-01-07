@@ -15,24 +15,40 @@
         <h1>MINI GAME VIỆT NAM 🇻🇳</h1>
         <p class="subtitle">CHÚC CÁC BẠN CHƠI VUI VẺ ♥️</p>
         <div id="user-info">
+            <span id="welcome"></span>
             <span>ĐIỂM: <span id="points">1000</span></span>
+            <button id="login-btn">ĐĂNG NHẬP / ĐĂNG KÝ</button>
+            <button id="logout-btn" style="display:none;">ĐĂNG XUẤT</button>
             <button id="info-btn">ℹ️ THÔNG TIN & UPDATE</button>
         </div>
     </header>
 
     <main>
+        <!-- Login Modal -->
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">×</span>
+                <h2>ĐĂNG NHẬP / ĐĂNG KÝ</h2>
+                <input type="text" id="username" placeholder="TÊN NGƯỜI DÙNG" required>
+                <input type="password" id="password" placeholder="MẬT KHẨU" required>
+                <button id="login-submit">ĐĂNG NHẬP</button>
+                <button id="register-submit">ĐĂNG KÝ</button>
+            </div>
+        </div>
+
         <!-- Info Modal -->
         <div id="info-modal" class="modal">
             <div class="modal-content">
                 <span class="close">×</span>
                 <h2>ℹ️ THÔNG TIN & UPDATE</h2>
                 <ul>
-                    <li>Fix Flappy Bird touch & hitbox</li>
-                    <li>Dinosaur kết thúc buồn ở 9999 điểm</li>
+                    <li>Full 7 game chạy mượt 100%</li>
+                    <li>Đăng nhập/đăng ký lưu điểm riêng</li>
+                    <li>Dino kết thúc buồn ở 9999 điểm</li>
                     <li>Flappy Bird thắng ở 100 điểm</li>
-                    <li>Popup thắng/thua đẹp & buồn riêng</li>
-                    <li>Thêm nhiều chướng ngại vật</li>
-                    <li>Nhạc nền + sound effects đầy đủ</li>
+                    <li>Popup thắng/thua đẹp riêng</li>
+                    <li>Bầu Cua đặt cược + timer 30s</li>
+                    <li>Sửa hết lỗi nút bấm & syntax</li>
                 </ul>
             </div>
         </div>
@@ -46,7 +62,7 @@
                 <input type="email" id="report-email" placeholder="GMAIL CỦA BẠN (BẮT BUỘC)" required>
                 <textarea id="report-msg" placeholder="TIN NHẮN YÊU CẦU SỬA LỖI (BẮT BUỘC)" required></textarea>
                 <p>GMAIL HỖ TRỢ: Herogoodboymc2024@gmail.com</p>
-                <button onclick="sendReport()">GỬI</button>
+                <button id="send-report-btn">GỬI</button>
             </div>
         </div>
 
@@ -74,12 +90,12 @@
             <div class="modal-content full">
                 <span class="close">×</span>
                 <div id="game-controls">
-                    <button onclick="confirmAction('Pause game?', pauseGame)">PAUSE</button>
-                    <button onclick="confirmAction('Reset game?', resetGame)">RESET</button>
-                    <button onclick="confirmAction('Restart?', restartGame)">RESTART</button>
-                    <button onclick="confirmAction('Skip trừ 30 điểm?', skipLevel)">SKIP (-30)</button>
-                    <button onclick="confirmAction('Từ bỏ trừ 10 điểm?', quitGame)">TỪ BỎ (-10)</button>
-                    <button onclick="confirmAction('Về trang chủ?', backHome)">TRANG CHỦ</button>
+                    <button id="pause-btn">PAUSE</button>
+                    <button id="reset-btn">RESET</button>
+                    <button id="restart-btn">RESTART</button>
+                    <button id="skip-btn">SKIP (-30)</button>
+                    <button id="quit-btn">TỪ BỎ (-10)</button>
+                    <button id="home-btn">TRANG CHỦ</button>
                 </div>
                 <div id="instructions"></div>
                 <div id="game-container"></div>
@@ -91,6 +107,7 @@
     <footer>
         <p>MADE IN VN 🇻🇳</p>
         <p>MADE BY : NGUYỄN CHÍ DỰ 🇻🇳♥️🇻🇳</p>
+        <p>NGUYỄN CHÍ DỰ SẼ NẮM MỌI QUYỀN CẤM SAO CHÉP</p>
         <button id="report-btn">REPORT BUGS</button>
     </footer>
 
