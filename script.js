@@ -6,7 +6,6 @@ const games = [
     { name: "🇻🇳 Bắn Vịt", id: "shootduck", desc: "Bắn vịt vui nhộn" },
     { name: "🇻🇳 2048 Việt Nam", id: "2048vn", desc: "Ghép số phong cách VN" },
     { name: "🇻🇳 Bầu Cua Tôm Cá", id: "baucua", desc: "Xúc xắc may rủi" },
-    // Thêm nếu cần
 ];
 
 // Phaser vars
@@ -51,6 +50,18 @@ window.onclick = (e) => {
     }
 };
 
+// === FIX LỖI NÚT ĐĂNG NHẬP / ĐĂNG KÝ ===
+document.getElementById('login-btn').onclick = () => {
+    document.getElementById('login-modal').style.display = 'block';
+    clickSound.play();
+};
+
+document.getElementById('register-btn').onclick = () => {
+    document.getElementById('register-modal').style.display = 'block';
+    clickSound.play();
+};
+// =====================================
+
 // Auth system
 let currentUser = null;
 
@@ -87,14 +98,14 @@ function renderGames() {
     });
 }
 
-// Bắt đầu game
+// Bắt đầu game (giữ nguyên như cũ)
 function startGame(id) {
     currentGameId = id;
     currentScore = currentUser ? (currentUser.score || 0) : 0;
     updateScoreDisplay();
     document.getElementById('home').style.display = 'none';
     document.getElementById('game-controls').classList.remove('hidden');
-    document.getElementById('phaser-game').classList.remove('hidden'); // thêm class hidden ở CSS nếu cần
+    document.getElementById('phaser-game').classList.remove('hidden');
 
     const config = {
         type: Phaser.AUTO,
@@ -110,7 +121,7 @@ function startGame(id) {
     successSound.play();
 }
 
-// Các scene game
+// Các scene game (giữ nguyên)
 function getSceneForGame(id) {
     switch (id) {
         case 'flappy': return flappyScene();
@@ -123,7 +134,6 @@ function getSceneForGame(id) {
     }
 }
 
-// Flappy Bird VN chi tiết
 function flappyScene() {
     return {
         preload: function () {
@@ -176,7 +186,6 @@ function flappyScene() {
     };
 }
 
-// Scene đơn giản cho các game khác (click để + điểm)
 function simpleClickScene(title) {
     return {
         create: function () {
@@ -184,13 +193,12 @@ function simpleClickScene(title) {
             this.input.on('pointerdown', () => {
                 updateGlobalScore(10);
             });
-            // Auto end sau 30s
             this.time.delayedCall(30000, () => gameOver());
         }
     };
 }
 
-// Update score
+// Các hàm còn lại giữ nguyên
 function updateGlobalScore(points) {
     currentScore += points;
     updateScoreDisplay();
@@ -201,11 +209,10 @@ function updateScoreDisplay() {
     document.getElementById('current-score').textContent = currentScore;
 }
 
-// Game over & destroy
 function gameOver() {
     gameOverSound.play();
     alert(`Game Over! Điểm cuối: ${currentScore}`);
-    saveUserData(); // Lưu ngay khi over
+    saveUserData();
     destroyGame();
 }
 
@@ -220,7 +227,7 @@ function destroyGame() {
     currentGameId = null;
 }
 
-// Game Controls (có confirm hết)
+// Game Controls (giữ nguyên)
 document.getElementById('skip-btn').onclick = () => {
     if (currentScore < 30) return alert('Không đủ 30 điểm!');
     if (confirm('SKIP? Trừ 30 điểm!')) {
@@ -258,7 +265,7 @@ document.getElementById('quit-btn').onclick = () => {
     }
 };
 
-// Đăng ký
+// Đăng ký & Đăng nhập (giữ nguyên)
 document.getElementById('register-form').onsubmit = (e) => {
     e.preventDefault();
     const name = document.getElementById('reg-name').value.trim();
@@ -274,7 +281,6 @@ document.getElementById('register-form').onsubmit = (e) => {
     successSound.play();
 };
 
-// Đăng nhập
 document.getElementById('login-form').onsubmit = (e) => {
     e.preventDefault();
     const identifier = document.getElementById('login-identifier').value.trim();
@@ -304,7 +310,6 @@ document.getElementById('login-form').onsubmit = (e) => {
     if (!found) alert('Sai thông tin đăng nhập!');
 };
 
-// Đăng xuất
 document.getElementById('logout-btn').onclick = () => {
     saveUserData();
     localStorage.removeItem('currentUser');
@@ -312,7 +317,6 @@ document.getElementById('logout-btn').onclick = () => {
     location.reload();
 };
 
-// Report bug & info modal (giữ nguyên)
 document.getElementById('report-bug-btn').onclick = () => {
     document.getElementById('bug-modal').style.display = 'block';
     clickSound.play();
@@ -331,7 +335,7 @@ document.getElementById('info-btn').onclick = () => {
     clickSound.play();
 };
 
-// Auto save data
+// Auto save
 function saveUserData() {
     if (!currentUser) return;
     currentUser.score = currentScore;
@@ -356,5 +360,5 @@ function saveUserData() {
     }, 1000);
 }
 
-setInterval(saveUserData, 60000); // Mỗi 60s
-loadUser(); // Load khi mở trang
+setInterval(saveUserData, 60000);
+loadUser();
