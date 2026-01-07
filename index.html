@@ -3,114 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MINI GAME VIỆT NAM 🇻🇳</title>
+    <title>🇻🇳 MINI GAME VIỆT NAM 🇻🇳</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <audio id="bg-music" loop autoplay>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-    </audio>
+    <!-- Đồng hồ realtime Việt Nam -->
+    <div id="realtime-clock">🕐 Đang tải thời gian...</div>
 
+    <!-- Header -->
     <header>
-        <h1>MINI GAME VIỆT NAM 🇻🇳</h1>
-        <p class="subtitle">CHÚC CÁC BẠN CHƠI VUI VẺ ♥️</p>
-        <div id="user-info">
-            <span id="welcome"></span>
-            <span>ĐIỂM: <span id="points">1000</span></span>
-            <button id="login-btn">ĐĂNG NHẬP / ĐĂNG KÝ</button>
-            <button id="logout-btn" style="display:none;">ĐĂNG XUẤT</button>
-            <button id="info-btn">ℹ️ THÔNG TIN & UPDATE</button>
+        <h1>🇻🇳 MINI GAME VIỆT NAM 🇻🇳</h1>
+        <p class="subtitle">TRANG WEB ĐƯỢC TẠO BỞI: NGUYỄN CHÍ DỰ ♥️🇻🇳♥️</p>
+        <p class="subtitle">GMAIL HỖ TRỢ: Herogoodboymc2024@gmail.com</p>
+        
+        <div id="save-notification" class="hidden">
+            ⏰ ĐANG LƯU DATA CỦA BẠN... <span id="countdown">5</span>s ⏰<br>
+            <span class="warning">⚠️ CẤM RELOAD TRANG WEB LẠI ⚠️</span>
+        </div>
+
+        <div id="auth-buttons">
+            <button id="login-btn">Đăng nhập</button>
+            <button id="register-btn">Đăng ký</button>
+        </div>
+        <div id="user-info" class="hidden">
+            Chào <span id="username-display"></span>! 
+            <button id="logout-btn">Đăng xuất</button>
         </div>
     </header>
 
-    <main>
-        <!-- Login Modal -->
-        <div id="login-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">×</span>
-                <h2>ĐĂNG NHẬP / ĐĂNG KÝ</h2>
-                <input type="text" id="username" placeholder="TÊN NGƯỜI DÙNG" required>
-                <input type="password" id="password" placeholder="MẬT KHẨU" required>
-                <button id="login-submit">ĐĂNG NHẬP</button>
-                <button id="register-submit">ĐĂNG KÝ</button>
+    <!-- Nút thông tin & update -->
+    <div class="info-btn-container">
+        <button id="info-btn">ℹ️ THÔNG TIN & UPDATE</button>
+    </div>
+
+    <!-- Main content - chỉ hiện khi đã đăng nhập -->
+    <main id="main-content" class="hidden">
+        <section id="home">
+            <h2>Chào mừng đến với Mini Game Việt Nam!</h2>
+            <p>Chọn một trò chơi Việt Nam để bắt đầu nhé! 🇻🇳</p>
+            <div class="game-grid" id="game-list">
+                <!-- Các game sẽ được thêm động bằng JS -->
             </div>
-        </div>
+        </section>
 
-        <!-- Info Modal -->
-        <div id="info-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">×</span>
-                <h2>ℹ️ THÔNG TIN & UPDATE</h2>
-                <ul>
-                    <li>Full 7 mini game Việt Nam chạy mượt</li>
-                    <li>Đăng nhập/đăng ký + lưu điểm riêng từng user</li>
-                    <li>Dino kết thúc buồn ở 9999 điểm</li>
-                    <li>Flappy Bird thắng ở 100 điểm</li>
-                    <li>Bầu Cua đặt cược + timer 30s</li>
-                    <li>Popup thắng/thua đẹp riêng</li>
-                    <li>Sound effects + nhạc nền</li>
-                    <li>Nút điều khiển có confirm</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Report Modal -->
-        <div id="report-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">×</span>
-                <h2>BÁO LỖI</h2>
-                <input type="text" id="report-name" placeholder="TÊN CỦA BẠN (BẮT BUỘC)" required>
-                <input type="email" id="report-email" placeholder="GMAIL CỦA BẠN (BẮT BUỘC)" required>
-                <textarea id="report-msg" placeholder="TIN NHẮN YÊU CẦU SỬA LỖI (BẮT BUỘC)" required></textarea>
-                <p>GMAIL HỖ TRỢ: Herogoodboymc2024@gmail.com</p>
-                <button id="send-report-btn">GỬI</button>
-            </div>
-        </div>
-
-        <!-- Pages -->
-        <div class="pages">
-            <button class="page-btn active" data-page="1">TRANG 1</button>
-            <button class="page-btn" data-page="2">TRANG 2</button>
-        </div>
-
-        <div id="page-1" class="game-grid">
-            <div class="game-card" data-game="snake">RẮN SĂN MỒI</div>
-            <div class="game-card" data-game="tictactoe">TÍC TẮC OE</div>
-            <div class="game-card" data-game="memory">GHÉP HÌNH</div>
-            <div class="game-card" data-game="dino">DINOSAUR RUN</div>
-        </div>
-
-        <div id="page-2" class="game-grid" style="display:none;">
-            <div class="game-card" data-game="flappy">FLAPPY BIRD</div>
-            <div class="game-card" data-game="rps">OẲN TÙ TÌ</div>
-            <div class="game-card" data-game="baucua">BẦU CUA TÔM CÁ</div>
-        </div>
-
-        <!-- Game Modal -->
-        <div id="game-modal" class="modal">
-            <div class="modal-content full">
-                <span class="close">×</span>
-                <div id="game-controls">
-                    <button id="pause-btn">PAUSE</button>
-                    <button id="reset-btn">RESET</button>
-                    <button id="restart-btn">RESTART</button>
-                    <button id="skip-btn">SKIP (-30)</button>
-                    <button id="quit-btn">TỪ BỎ (-10)</button>
-                    <button id="home-btn">TRANG CHỦ</button>
-                </div>
-                <div id="instructions"></div>
-                <div id="game-container"></div>
-                <div id="popup" class="popup" style="display:none;"></div>
-            </div>
+        <!-- Game Controls - hiện khi chơi game -->
+        <div id="game-controls" class="hidden">
+            <div class="score-display">Điểm: <span id="current-score">0</span></div>
+            <button id="skip-btn">SKIP (-30đ)</button>
+            <button id="stop-btn">STOP</button>
+            <button id="reset-btn">RESET (Xóa hết điểm)</button>
+            <button id="restart-btn">RESTART</button>
+            <button id="quit-btn">TỪ BỎ (-10đ)</button>
         </div>
     </main>
 
+    <!-- Game Canvas Container -->
+    <div id="phaser-game" class="hidden"></div>
+
+    <!-- Footer -->
     <footer>
-        <p>MADE IN VN 🇻🇳</p>
-        <p>MADE BY : NGUYỄN CHÍ DỰ 🇻🇳♥️🇻🇳</p>
-        <p>NGUYỄN CHÍ DỰ SẼ NẮM MỌI QUYỀN CẤM SAO CHÉP</p>
-        <button id="report-btn">REPORT BUGS</button>
+        <p>MADE IN VIỆT NAM 🇻🇳</p>
+        <p>MADE BY: NGUYỄN CHÍ DỰ ♥️🇻🇳♥️</p>
+        <p>BẢN QUYỀN: DO NGUYỄN CHÍ DỰ NẮM QUYỀN</p>
+        <button id="report-bug-btn">Report Bugs</button>
+        <p>Phiên bản: <span id="version">1.2</span> (Fix lỗi + Flappy Bird mượt)</p>
     </footer>
+
+    <!-- Modal Đăng ký -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Đăng ký</h2>
+            <form id="register-form">
+                <input type="text" id="reg-name" placeholder="Tên của bạn là gì? *" required>
+                <input type="email" id="reg-email" placeholder="Gmail của bạn là gì? *" required>
+                <input type="password" id="reg-password" placeholder="Mật khẩu của bạn là gì? *" required>
+                <button type="submit">Đăng ký</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Đăng nhập -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Đăng nhập</h2>
+            <form id="login-form">
+                <input type="text" id="login-identifier" placeholder="Tên hoặc Gmail của bạn? *" required>
+                <input type="password" id="login-password" placeholder="Mật khẩu của bạn? *" required>
+                <button type="submit">Đăng nhập</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Report Bug -->
+    <div id="bug-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Report Bugs</h2>
+            <form id="bug-form">
+                <input type="text" id="bug-name" placeholder="Tên của bạn? *" required>
+                <input type="email" id="bug-email" placeholder="Gmail của bạn? *" required>
+                <textarea id="bug-message" placeholder="Tin nhắn yêu cầu sửa lỗi của bạn *" required></textarea>
+                <button type="submit">Gửi báo cáo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Thông tin & Update -->
+    <div id="info-modal" class="modal">
+        <div class="modal-content info-modal">
+            <span class="close">&times;</span>
+            <h2>ℹ️ THÔNG TIN & UPDATE</h2>
+            <p><strong>Phiên bản hiện tại: 1.2</strong></p>
+            <ul>
+                <li><strong>07/01/2026 - 1.2</strong>: Fix toàn bộ lỗi script.js (login, save score, controls confirm). Flappy Bird VN chạy mượt với pipe, gravity, collider. Các game khác tích điểm ổn định.</li>
+                <li><strong>07/01/2026 - 1.1</strong>: Thêm game Việt Nam với Phaser.js, hệ thống điểm + controls đầy đủ.</li>
+                <li><strong>07/01/2026 - 1.0</strong>: Ra mắt website, đăng nhập/đăng ký, lưu data tự động, đồng hồ realtime VN.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Nhạc nền chill instrumental Việt -->
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Sound effects -->
+    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"></audio>
+    <audio id="success-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+    <audio id="game-over-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3"></audio>
 
     <script src="script.js"></script>
 </body>
